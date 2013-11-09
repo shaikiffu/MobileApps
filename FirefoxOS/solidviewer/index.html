@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	 "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7;" > 
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="include/solids.css">
+	<script type="text/javascript" src="include/three.min.js"></script>
+	<script type="text/javascript" src="include/jsmodeler.js"></script>
+	<title>Solid Viewer</title>
+
+	<script type="text/javascript">
+		function Resize ()
+		{
+			var menu = document.getElementById ('menu');
+			var canvas = document.getElementById ('viewer');
+			canvas.setAttribute ('width', window.innerWidth);
+			canvas.setAttribute ('height', window.innerHeight - menu.clientHeight);
+
+			if (viewer != null) {
+				viewer.Resize ();
+				viewer.FitInWindow ();
+			}
+		}
+
+		function Load ()
+		{
+			var TextureLoaded = function () {
+				viewer.Draw ();
+			};
+
+			var viewerSettings = {
+				cameraEyePosition : [-2.0, -1.5, 1.0],
+				cameraCenterPosition : [0.0, 0.0, 0.0],
+				cameraUpVector : [0, 0, 1]
+			};
+
+			viewer = new JSM.Viewer ();
+			viewer.Start ('viewer', viewerSettings);
+
+			var body = JSM.GenerateCuboid (1, 1, 1);
+			var meshes = JSM.ConvertBodyToThreeMeshes (body);
+			for (var i = 0; i < meshes.length; i++) {
+				viewer.AddMesh (meshes[i]);
+			}
+			viewer.FitInWindow ();
+
+			window.onresize = Resize;
+			Resize ();
+		}
+	
+	    window.onload = function ()
+		{
+			Load ();			
+		}
+	</script>
+
+</head>
+
+<body>
+	<div id="menu">
+		<div class="button">hexahedron</div>
+	</div>
+	<canvas id="viewer" width="300" height="200"></canvas>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "Solid Viewer",
+  "description": "WebGL based solid body viewer.",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "/img/icon-128.png"
+  },
+  "developer": {
+    "name": "Viktor Kovacs",
+    "url": "http://kovacsv.hu"
+  },
+  "default_locale": "en"
+}
