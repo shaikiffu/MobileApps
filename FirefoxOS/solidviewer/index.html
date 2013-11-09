@@ -19,15 +19,36 @@
 		var menuHandler = null;
 		var currentShape = null;
 		
-		var cubeParameters = {
-			'x size' : [1.0],
-			'y size' : [1.0],
-			'z size' : [1.0]
-		};
+		var shapeParameters = [
+			{ // cube
+				'x size' : {
+					type : 'float',
+					value : 1.0,
+					min : 0.1,
+					max : 10.0,
+					step : 0.1
+				},
+				'y size' : {
+					type : 'float',
+					value : 1.0,
+					min : 0.1,
+					max : 10.0,
+					step : 0.1
+				},
+				'z size' : {
+					type : 'float',
+					value : 1.0,
+					min : 0.1,
+					max : 10.0,
+					step : 0.1
+				}
+			}
+		];
 		
 		function GenerateShape ()
 		{
-			var body = JSM.GenerateCuboid (cubeParameters['x size'][0], cubeParameters['y size'][0], cubeParameters['z size'][0]);
+			var parameters = shapeParameters[currentShape];
+			var body = JSM.GenerateCuboid (parameters['x size'].value, parameters['y size'].value, parameters['z size'].value);
 			var meshes = JSM.ConvertBodyToThreeMeshes (body);
 			
 			viewer.RemoveMeshes ();
@@ -49,8 +70,8 @@
 			pageHandler.SetToPage (1);
 			
 			var content = document.getElementById ('settingscontent');
-			
-			menuHandler.Init (content, cubeParameters);
+			var parameters = shapeParameters[currentShape];
+			menuHandler.Init (content, parameters);
 			menuHandler.Fill ();
 		}
 		
@@ -92,6 +113,7 @@
 			window.onresize = Resize;
 			Resize ();
 			
+			currentShape = 0;
 			GenerateShape ();
 		}
 	
