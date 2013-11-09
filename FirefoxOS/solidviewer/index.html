@@ -7,27 +7,75 @@
 
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7;" > 
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
-	<link rel="stylesheet" type="text/css" href="include/solids.css">
+	<link rel="stylesheet" type="text/css" href="include/style.css">
 	<script type="text/javascript" src="include/three.min.js"></script>
 	<script type="text/javascript" src="include/jsmodeler.js"></script>
+	<script type="text/javascript" src="include/pagehandler.js"></script>
+	<script type="text/javascript" src="include/menuhandler.js"></script>
 	<title>Solid Viewer</title>
 
 	<script type="text/javascript">
+		var pageHandler = null;
+		var menuHandler = null;
+		var currentShape = null;
+		
+		var cubeParameters = {
+			'x size' : [1.0],
+			'y size' : [1.0],
+			'z size' : [1.0]
+		};
+		
+		function GenerateShape ()
+		{
+			var body = JSM.GenerateCuboid (cubeParameters['x size'][0], cubeParameters['y size'][0], cubeParameters['z size'][0]);
+			var meshes = JSM.ConvertBodyToThreeMeshes (body);
+			
+			viewer.RemoveMeshes ();
+			for (var i = 0; i < meshes.length; i++) {
+				viewer.AddMesh (meshes[i]);
+			}
+			viewer.FitInWindow ();
+		}
+		
+		function Back ()
+		{
+			pageHandler.SetToPage (0);
+			GenerateShape ();
+			Resize ();
+		}
+		
+		function ShowSettings ()
+		{
+			pageHandler.SetToPage (1);
+			
+			var content = document.getElementById ('settingscontent');
+			
+			menuHandler.Init (content, cubeParameters);
+			menuHandler.Fill ();
+		}
+		
 		function Resize ()
 		{
-			var menu = document.getElementById ('menu');
+			var menu = document.getElementById ('mainmenu');
 			var canvas = document.getElementById ('viewer');
 			canvas.setAttribute ('width', window.innerWidth);
 			canvas.setAttribute ('height', window.innerHeight - menu.clientHeight);
 
 			if (viewer != null) {
 				viewer.Resize ();
-				viewer.FitInWindow ();
+				if (viewer.MeshCount () > 0) {
+					viewer.FitInWindow ();
+				}
 			}
 		}
 
 		function Load ()
 		{
+			pageHandler = new PageHandler ();
+			pageHandler.SetToPage (0);
+			
+			menuHandler = new MenuHandler ();
+			
 			var TextureLoaded = function () {
 				viewer.Draw ();
 			};
@@ -41,15 +89,10 @@
 			viewer = new JSM.Viewer ();
 			viewer.Start ('viewer', viewerSettings);
 
-			var body = JSM.GenerateCuboid (1, 1, 1);
-			var meshes = JSM.ConvertBodyToThreeMeshes (body);
-			for (var i = 0; i < meshes.length; i++) {
-				viewer.AddMesh (meshes[i]);
-			}
-			viewer.FitInWindow ();
-
 			window.onresize = Resize;
 			Resize ();
+			
+			GenerateShape ();
 		}
 	
 	    window.onload = function ()
@@ -61,10 +104,24 @@
 </head>
 
 <body>
-	<div id="menu">
-		<div class="button">hexahedron</div>
+	<div class="page">
+		<div class="menu" id="mainmenu">
+			<div class="text">solids</div>
+			<div class="righticonbutton"><img src="images/menu.png"></div>
+			<a href="javascript:ShowSettings ();"><div class="righticonbutton"><img src="images/settings.png"></div></a>
+		</div>
+		<canvas id="viewer" width="300" height="200"></canvas>
 	</div>
-	<canvas id="viewer" width="300" height="200"></canvas>
+
+	<div class="page">
+		<div class="menu">
+			<a href="javascript:Back ();"><div class="lefticonbutton"><img src="images/back.png"></div></a>
+			<div class="text">settings</div>
+		</div>
+		<div class="clearer"></div>
+		<div class="content" id="settingscontent">
+		</div>
+	</div>
 </body>
 
 </html>
