@@ -55,30 +55,71 @@ MenuHandler.prototype =
 		div.addEventListener ('mouseup', function (event) {myThis.OnMouseUp (event);});
 		div.addEventListener ('mousemove', function (event) {myThis.OnMouseMove (event);});
 		div.addEventListener ('mousedown', function (event) {myThis.OnMouseDown (event);});
+		div.addEventListener ('touchstart', function (event) {myThis.OnTouchStart (event);});
+		div.addEventListener ('touchmove', function (event) {myThis.OnTouchMove (event);});
+		div.addEventListener ('touchend', function (event) {myThis.OnTouchEnd (event);});
 	},
-	
+
 	OnMouseDown : function (event)
 	{
-		var paramKeyDiv = this.FindParamKeyDiv (event);
+		this.OnInputStart (event.target, event.clientX);
+	},
+
+	OnMouseMove : function (event)
+	{
+		this.OnInputMove (event.target, event.clientX);
+	},
+	
+	OnMouseUp : function (event)
+	{
+		this.OnInputEnd ();
+	},
+	
+	OnTouchStart : function (event)
+	{
+		if (event.touches.length === 0) {
+			return;
+		}
+		var touch = event.touches[0];	
+		this.OnInputStart (touch.target, touch.pageX);
+	},
+
+	OnTouchMove : function (event)
+	{
+		if (event.touches.length === 0) {
+			return;
+		}
+		var touch = event.touches[0];	
+		this.OnInputMove (touch.target, touch.pageX);
+	},
+	
+	OnTouchEnd : function (event)
+	{
+		this.OnInputEnd ();
+	},
+	
+	OnInputStart : function (target, x)
+	{
+		var paramKeyDiv = this.FindParamKeyDiv (target);
 		if (paramKeyDiv === null) {
 			return;
 		}
 
 		var paramDesc = this.parameters[paramKeyDiv.paramKey]
-		this.origInputX = event.clientX;
+		this.origInputX = x;
 		this.origValue = paramDesc[0];
 	},
 
-	OnMouseMove : function (event)
+	OnInputMove : function (target, x)
 	{
 		if (this.origInputX === null) {
 			return;
 		}
 		
-		var diff = event.clientX - this.origInputX;
+		var diff = x - this.origInputX;
 		var step = 10;
 		if (diff > step || diff < -step) {
-			var paramKeyDiv = this.FindParamKeyDiv (event);
+			var paramKeyDiv = this.FindParamKeyDiv (target);
 			if (paramKeyDiv === null) {
 				return;
 			}
@@ -89,15 +130,15 @@ MenuHandler.prototype =
 		}
 	},
 	
-	OnMouseUp : function (event)
+	OnInputEnd : function ()
 	{
 		this.origInputX = null;
 		this.origValue = null;
 	},
 	
-	FindParamKeyDiv : function (event)
+	FindParamKeyDiv : function (eventTarget)
 	{
-		var target = event.target;
+		var target = eventTarget;
 		while (target !== null) {
 			if (target.paramKey !== undefined) {
 				return target;
