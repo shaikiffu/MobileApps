@@ -32,15 +32,15 @@ MenuHandler.prototype =
 		var div = document.createElement ('div');
 		var paramDesc = this.parameters[key];
 		
-		var nameSpan = document.createElement ('span');
-		nameSpan.className = 'name';
-		nameSpan.innerHTML = key;
-		div.appendChild (nameSpan);
+		var nameDiv = document.createElement ('div');
+		nameDiv.className = 'name';
+		nameDiv.innerHTML = key;
+		div.appendChild (nameDiv);
 		
-		var valueSpan = document.createElement ('span');
-		valueSpan.className = 'value';
-		this.SetValue (valueSpan, paramDesc);
-		div.appendChild (valueSpan);
+		var valueDiv = document.createElement ('div');
+		valueDiv.className = 'value';
+		this.SetValue (valueDiv, paramDesc);
+		div.appendChild (valueDiv);
 
 		div.className = 'parameter';
 		div.paramKey = key;
@@ -117,28 +117,33 @@ MenuHandler.prototype =
 		}
 		
 		var diff = x - this.origInputX;
-		var step = 10;
-		if (diff > step || diff < -step) {
-			var paramKeyDiv = this.FindParamKeyDiv (target);
-			if (paramKeyDiv === null) {
-				return;
-			}
-			
-			var paramDesc = this.parameters[paramKeyDiv.paramKey];
-			if (paramDesc.type == 'float') {
-				var eps = 0.00001;
-				var newValue = this.origValue + parseInt (diff / step) * paramDesc.step;
-				if (newValue >= paramDesc.min - eps && newValue <= paramDesc.max + eps) {
-					paramDesc.value = parseFloat (newValue);
-				}
-			} else if (paramDesc.type == 'integer') {
-				var newValue = this.origValue + parseInt (diff / step) * paramDesc.step;
-				if (newValue >= paramDesc.min && newValue <= paramDesc.max) {
-					paramDesc.value = parseInt (newValue);
-				}
-			}
-			this.SetValue (paramKeyDiv.childNodes[1], paramDesc);
+		var step = 20;
+
+		var paramKeyDiv = this.FindParamKeyDiv (target);
+		if (paramKeyDiv === null) {
+			return;
 		}
+		
+		var paramDesc = this.parameters[paramKeyDiv.paramKey];
+		if (paramDesc.type == 'float') {
+			var eps = 0.00001;
+			var newValue = this.origValue + parseInt (diff / step) * paramDesc.step;
+			if (newValue >= paramDesc.min - eps && newValue <= paramDesc.max + eps) {
+				paramDesc.value = parseFloat (newValue);
+			}
+		} else if (paramDesc.type == 'integer') {
+			var newValue = this.origValue + parseInt (diff / step) * paramDesc.step;
+			if (newValue >= paramDesc.min && newValue <= paramDesc.max) {
+				paramDesc.value = parseInt (newValue);
+			}
+		} else if (paramDesc.type == 'list') {
+			var origIndex = paramDesc.valueList.indexOf (this.origValue);
+			var newIndex = origIndex + parseInt (diff / step);
+			if (newIndex >= 0 && newIndex < paramDesc.valueList.length) {
+				paramDesc.value = paramDesc.valueList[newIndex];
+			}
+		}
+		this.SetValue (paramKeyDiv.childNodes[1], paramDesc);
 	},
 	
 	OnInputEnd : function ()
@@ -151,7 +156,7 @@ MenuHandler.prototype =
 	{
 		if (paramDesc.type == 'float') {
 			div.innerHTML = paramDesc.value.toFixed (1);
-		} else if (paramDesc.type == 'integer') {
+		} else {
 			div.innerHTML = paramDesc.value;
 		}
 	},

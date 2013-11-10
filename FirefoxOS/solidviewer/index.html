@@ -43,6 +43,15 @@
 					step : 0.1
 				}
 			},
+			'sphere' : {
+				'segmentation' : {
+					type : 'integer',
+					value : 20,
+					min : 3,
+					max : 50,
+					step : 1
+				}
+			},			
 			'cylinder' : {
 				'radius' : {
 					type : 'float',
@@ -66,8 +75,132 @@
 					step : 1
 				}
 			},
+			'cone' : {
+				'top radius' : {
+					type : 'float',
+					value : 0.5,
+					min : 0.0,
+					max : 10.0,
+					step : 0.1
+				},
+				'bottom radius' : {
+					type : 'float',
+					value : 0.8,
+					min : 0.1,
+					max : 10.0,
+					step : 0.1
+				},
+				'height' : {
+					type : 'float',
+					value : 1.0,
+					min : 0.1,
+					max : 10.0,
+					step : 0.1
+				},
+				'segmentation' : {
+					type : 'integer',
+					value : 30,
+					min : 3,
+					max : 50,
+					step : 1
+				}
+			},
+			'pie' : {
+				'radius' : {
+					type : 'float',
+					value : 0.5,
+					min : 0.1,
+					max : 10.0,
+					step : 0.1
+				},
+				'height' : {
+					type : 'float',
+					value : 0.1,
+					min : 0.1,
+					max : 10.0,
+					step : 0.1
+				},
+				'angle' : {
+					type : 'integer',
+					value : 90,
+					min : 1,
+					max : 359,
+					step : 1
+				},
+				'segmentation' : {
+					type : 'integer',
+					value : 30,
+					min : 3,
+					max : 50,
+					step : 1
+				}
+			},
+			'torus' : {
+				'out radius' : {
+					type : 'float',
+					value : 0.5,
+					min : 0.1,
+					max : 10.0,
+					step : 0.1
+				},
+				'in radius' : {
+					type : 'float',
+					value : 0.3,
+					min : 0.1,
+					max : 10.0,
+					step : 0.1
+				},
+				'out segmentation' : {
+					type : 'integer',
+					value : 30,
+					min : 3,
+					max : 50,
+					step : 1
+				},
+				'in segmentation' : {
+					type : 'integer',
+					value : 30,
+					min : 3,
+					max : 50,
+					step : 1
+				}
+			},
+			'platonic' : {
+				'type' : {
+					type : 'list',
+					value : 'Tetrahedron',
+					valueList : [
+						'Tetrahedron',
+						'Hexahedron',
+						'Octahedron',
+						'Dodecahedron',
+						'Icosahedron'
+					]
+				}
+			},
+			'archimedean' : {
+				'type' : {
+					type : 'list',
+					value : 'Truncated Tetrahedron',
+					valueList : [
+						'Truncated Tetrahedron',
+						'Cuboctahedron',
+						'Truncated Cube',
+						'Truncated Octahedron',
+						'Rhombicuboctahedron',
+						'Truncated Cuboctahedron',
+						'Snub Cube',
+						'Icosidodecahedron',
+						'Truncated Dodecahedron',
+						'Truncated Icosahedron',
+						'Rhombicosidodecahedron',
+						'Truncated Icosidodecahedron',
+						'Snub Dodecahedron'
+					]
+				}
+			}			
 		};
-		
+	
 		function GenerateShape ()
 		{
 			var parameters = shapeParameters[currentShape];
@@ -75,8 +208,19 @@
 			var body;
 			if (currentShape == 'cuboid') {
 				body = JSM.GenerateCuboid (parameters['x size'].value, parameters['y size'].value, parameters['z size'].value);
+			} else if (currentShape == 'sphere') {
+				body = JSM.GenerateSphere (1.0, parameters['segmentation'].value, true);
 			} else if (currentShape == 'cylinder') {
 				body = JSM.GenerateCylinder (parameters['radius'].value, parameters['height'].value, parameters['segmentation'].value, true, true);
+			} else if (currentShape == 'cone') {
+				body = JSM.GenerateCone (parameters['top radius'].value, parameters['bottom radius'].value, parameters['height'].value, parameters['segmentation'].value, true, true);
+			} else if (currentShape == 'pie') {
+				body = JSM.GeneratePie (parameters['radius'].value, parameters['height'].value, parameters['angle'].value * JSM.DegRad, parameters['segmentation'].value, true, true);
+			} else if (currentShape == 'torus') {
+				body = JSM.GenerateTorus (parameters['out radius'].value, parameters['in radius'].value, parameters['out segmentation'].value, parameters['in segmentation'].value, true);
+			} else if (currentShape == 'platonic' || currentShape == 'archimedean') {
+				var type = parameters.type.value.replace (' ', '');
+				body = JSM.GenerateSolidWithRadius (type, 1.0);
 			}
 			
 			var meshes = JSM.ConvertBodyToThreeMeshes (body);
@@ -162,7 +306,8 @@
 			var viewerSettings = {
 				cameraEyePosition : [-2.0, -1.5, 1.0],
 				cameraCenterPosition : [0.0, 0.0, 0.0],
-				cameraUpVector : [0, 0, 1]
+				cameraUpVector : [0, 0, 1],
+				cameraDisableZoom : true
 			};
 
 			viewer = new JSM.Viewer ();
@@ -211,7 +356,13 @@
 		</div>
 		<div class="content">
 			<a href="javascript:SetCurrentShape ('cuboid')"><div class="parameter">cuboid</div></a>
+			<a href="javascript:SetCurrentShape ('sphere')"><div class="parameter">sphere</div></a>
 			<a href="javascript:SetCurrentShape ('cylinder')"><div class="parameter">cylinder</div></a>
+			<a href="javascript:SetCurrentShape ('cone')"><div class="parameter">cone</div></a>
+			<a href="javascript:SetCurrentShape ('pie')"><div class="parameter">pie</div></a>
+			<a href="javascript:SetCurrentShape ('torus')"><div class="parameter">torus</div></a>
+			<a href="javascript:SetCurrentShape ('platonic')"><div class="parameter">platonic</div></a>
+			<a href="javascript:SetCurrentShape ('archimedean')"><div class="parameter">archimedean</div></a>
 		</div>
 	</div>	
 </body>
