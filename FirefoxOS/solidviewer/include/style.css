@@ -17,7 +17,6 @@ body
 	margin: 0px;
 	height: 100%;
 	display: block;
-	overflow: hidden;
 }
 
 div.menu
@@ -26,6 +25,7 @@ div.menu
 	background : #cd6723;
 	background : -moz-linear-gradient(top, #cd6723, #bb482d);
 	font-size : 2.5rem;
+	width : 100%;
 	overflow: auto;
 }
 
@@ -37,6 +37,8 @@ div.clearer
 div.content
 {
 	font-size : 2.0rem;
+	overflow : auto;
+	height : 300px;
 }
 
 div.text
@@ -82,4 +84,11 @@ span.value
 canvas
 {
 	display : block;
+}
+
+a
+{
+	color : #000000;
+	background : transparent;
+	text-decoration : none;
 }

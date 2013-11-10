@@ -39,7 +39,7 @@ MenuHandler.prototype =
 		
 		var valueSpan = document.createElement ('span');
 		valueSpan.className = 'value';
-		valueSpan.innerHTML = paramDesc.value.toFixed (1);
+		this.SetValue (valueSpan, paramDesc);
 		div.appendChild (valueSpan);
 
 		div.className = 'parameter';
@@ -129,10 +129,15 @@ MenuHandler.prototype =
 				var eps = 0.00001;
 				var newValue = this.origValue + parseInt (diff / step) * paramDesc.step;
 				if (newValue >= paramDesc.min - eps && newValue <= paramDesc.max + eps) {
-					paramDesc.value = newValue;
-					paramKeyDiv.childNodes[1].innerHTML = newValue.toFixed (1);
+					paramDesc.value = parseFloat (newValue);
+				}
+			} else if (paramDesc.type == 'integer') {
+				var newValue = this.origValue + parseInt (diff / step) * paramDesc.step;
+				if (newValue >= paramDesc.min && newValue <= paramDesc.max) {
+					paramDesc.value = parseInt (newValue);
 				}
 			}
+			this.SetValue (paramKeyDiv.childNodes[1], paramDesc);
 		}
 	},
 	
@@ -140,6 +145,15 @@ MenuHandler.prototype =
 	{
 		this.origInputX = null;
 		this.origValue = null;
+	},
+	
+	SetValue : function (div, paramDesc)
+	{
+		if (paramDesc.type == 'float') {
+			div.innerHTML = paramDesc.value.toFixed (1);
+		} else if (paramDesc.type == 'integer') {
+			div.innerHTML = paramDesc.value;
+		}
 	},
 	
 	FindParamKeyDiv : function (eventTarget)
