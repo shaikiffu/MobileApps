@@ -29,7 +29,7 @@ div.menu
 	background : #cd6723;
 	background : -moz-linear-gradient(top, #cd6723, #bb482d);
 	font-family: FiraSansRegular;
-	font-size : 30px;
+	font-size : 28px;
 	width : 100%;
 	overflow: auto;
 }
@@ -43,7 +43,7 @@ div.text
 div.content
 {
 	font-family: FiraSansLight;
-	font-size : 20px;
+	font-size : 18px;
 	overflow : auto;
 	height : 300px;
 }

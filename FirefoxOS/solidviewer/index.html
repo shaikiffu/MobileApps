@@ -12,219 +12,58 @@
 	<script type="text/javascript" src="include/three.min.js"></script>
 	<script type="text/javascript" src="include/jsmodeler.js"></script>
 	<script type="text/javascript" src="include/pagehandler.js"></script>
-	<script type="text/javascript" src="include/menuhandler.js"></script>
 	<title>Solid Viewer</title>
 
 	<script type="text/javascript">
 		var pageHandler = null;
-		var menuHandler = null;
 		var currentShape = null;
-		
-		var shapeParameters = {
-			'cuboid' : {
-				'x size' : {
-					type : 'float',
-					value : 1.0,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'y size' : {
-					type : 'float',
-					value : 1.0,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'z size' : {
-					type : 'float',
-					value : 1.0,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				}
-			},
-			'sphere' : {
-				'segmentation' : {
-					type : 'integer',
-					value : 20,
-					min : 3,
-					max : 50,
-					step : 1
-				}
-			},			
-			'cylinder' : {
-				'radius' : {
-					type : 'float',
-					value : 0.5,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'height' : {
-					type : 'float',
-					value : 1.0,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'segmentation' : {
-					type : 'integer',
-					value : 30,
-					min : 3,
-					max : 50,
-					step : 1
-				}
-			},
-			'cone' : {
-				'top radius' : {
-					type : 'float',
-					value : 0.5,
-					min : 0.0,
-					max : 10.0,
-					step : 0.1
-				},
-				'bottom radius' : {
-					type : 'float',
-					value : 0.8,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'height' : {
-					type : 'float',
-					value : 1.0,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'segmentation' : {
-					type : 'integer',
-					value : 30,
-					min : 3,
-					max : 50,
-					step : 1
-				}
-			},
-			'pie' : {
-				'radius' : {
-					type : 'float',
-					value : 0.5,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'height' : {
-					type : 'float',
-					value : 0.1,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'angle' : {
-					type : 'integer',
-					value : 90,
-					min : 1,
-					max : 359,
-					step : 1
-				},
-				'segmentation' : {
-					type : 'integer',
-					value : 30,
-					min : 3,
-					max : 50,
-					step : 1
-				}
-			},
-			'torus' : {
-				'out radius' : {
-					type : 'float',
-					value : 0.5,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'in radius' : {
-					type : 'float',
-					value : 0.3,
-					min : 0.1,
-					max : 10.0,
-					step : 0.1
-				},
-				'out segmentation' : {
-					type : 'integer',
-					value : 30,
-					min : 3,
-					max : 50,
-					step : 1
-				},
-				'in segmentation' : {
-					type : 'integer',
-					value : 30,
-					min : 3,
-					max : 50,
-					step : 1
-				}
-			},
-			'platonic' : {
-				'type' : {
-					type : 'list',
-					value : 'Tetrahedron',
-					valueList : [
-						'Tetrahedron',
-						'Hexahedron',
-						'Octahedron',
-						'Dodecahedron',
-						'Icosahedron'
-					]
-				}
-			},
-			'archimedean' : {
-				'type' : {
-					type : 'list',
-					value : 'Truncated Tetrahedron',
-					valueList : [
-						'Truncated Tetrahedron',
-						'Cuboctahedron',
-						'Truncated Cube',
-						'Truncated Octahedron',
-						'Rhombicuboctahedron',
-						'Truncated Cuboctahedron',
-						'Snub Cube',
-						'Icosidodecahedron',
-						'Truncated Dodecahedron',
-						'Truncated Icosahedron',
-						'Rhombicosidodecahedron',
-						'Truncated Icosidodecahedron',
-						'Snub Dodecahedron'
-					]
-				}
-			}			
-		};
+		var viewer = null;
 	
 		function GenerateShape ()
 		{
-			var parameters = shapeParameters[currentShape];
+			var shapeNames = [
+				'Tetrahedron',
+				'Hexahedron',
+				'Octahedron',
+				'Dodecahedron',
+				'Icosahedron',
+				'TruncatedTetrahedron',
+				'Cuboctahedron',
+				'TruncatedCube',
+				'TruncatedOctahedron',
+				'Rhombicuboctahedron',
+				'TruncatedCuboctahedron',
+				'SnubCube',
+				'Icosidodecahedron',
+				'TruncatedDodecahedron',
+				'TruncatedIcosahedron',
+				'Rhombicosidodecahedron',
+				'TruncatedIcosidodecahedron',
+				'SnubDodecahedron'
+			];
+		
+			var body = JSM.GenerateSolidWithRadius (shapeNames[currentShape], 1.0);
 			
-			var body;
-			if (currentShape == 'cuboid') {
-				body = JSM.GenerateCuboid (parameters['x size'].value, parameters['y size'].value, parameters['z size'].value);
-			} else if (currentShape == 'sphere') {
-				body = JSM.GenerateSphere (1.0, parameters['segmentation'].value, true);
-			} else if (currentShape == 'cylinder') {
-				body = JSM.GenerateCylinder (parameters['radius'].value, parameters['height'].value, parameters['segmentation'].value, true, true);
-			} else if (currentShape == 'cone') {
-				body = JSM.GenerateCone (parameters['top radius'].value, parameters['bottom radius'].value, parameters['height'].value, parameters['segmentation'].value, true, true);
-			} else if (currentShape == 'pie') {
-				body = JSM.GeneratePie (parameters['radius'].value, parameters['height'].value, parameters['angle'].value * JSM.DegRad, parameters['segmentation'].value, true, true);
-			} else if (currentShape == 'torus') {
-				body = JSM.GenerateTorus (parameters['out radius'].value, parameters['in radius'].value, parameters['out segmentation'].value, parameters['in segmentation'].value, true);
-			} else if (currentShape == 'platonic' || currentShape == 'archimedean') {
-				var type = parameters.type.value.replace (' ', '');
-				body = JSM.GenerateSolidWithRadius (type, 1.0);
+			var materials = new JSM.Materials ();
+			materials.AddMaterial (new JSM.Material (0x008ab8, 0x008ab8));
+			materials.AddMaterial (new JSM.Material (0x279b61, 0x279b61));
+			materials.AddMaterial (new JSM.Material (0xcc3333, 0xcc3333));
+
+			var vertexCountToColor = [];
+			var currentColor = 0;
+				
+			var i, polygon, vertexCount;
+			for (i = 0; i < body.PolygonCount (); i++) {
+				polygon = body.GetPolygon (i);
+				vertexCount = polygon.VertexIndexCount ();
+				if (vertexCountToColor[vertexCount] === undefined) {
+					vertexCountToColor[vertexCount] = currentColor;
+					currentColor++;
+				}
+				polygon.SetMaterialIndex (vertexCountToColor[vertexCount]);
 			}
-			
-			var meshes = JSM.ConvertBodyToThreeMeshes (body);
+
+			var meshes = JSM.ConvertBodyToThreeMeshes (body, materials);
 			viewer.RemoveMeshes ();
 			for (var i = 0; i < meshes.length; i++) {
 				viewer.AddMesh (meshes[i]);
@@ -232,38 +71,20 @@
 			viewer.FitInWindow ();
 		}
 		
-		function SetCurrentShape (shapeName)
+		function SetCurrentShape (index)
 		{
-			currentShape = shapeName;
-			var titleDiv = document.getElementById ('maintext');
-			titleDiv.innerHTML = currentShape;
-
-			pageHandler.SetToPage (0);
-			Resize ();
-
-			GenerateShape ();
+			currentShape = index;
+			BackToMain ();
 		}
-
-		function Back ()
+		
+		function BackToMain ()
 		{
 			pageHandler.SetToPage (0);
 			Resize ();
-
 			GenerateShape ();
 		}
-		
-		function ShowSettings ()
-		{
-			pageHandler.SetToPage (1);
-			Resize ();
-			
-			var content = document.getElementById ('settingscontent');
-			var parameters = shapeParameters[currentShape];
-			menuHandler.Init (content, parameters);
-			menuHandler.Fill ();
-		}
-		
-		function ShowMenu ()
+
+		function ShowShapeList ()
 		{
 			pageHandler.SetToPage (2);
 			Resize ();
@@ -298,8 +119,6 @@
 			pageHandler = new PageHandler ();
 			pageHandler.SetToPage (0);
 			
-			menuHandler = new MenuHandler ();
-			
 			var TextureLoaded = function () {
 				viewer.Draw ();
 			};
@@ -317,7 +136,7 @@
 			window.onresize = Resize;
 			Resize ();
 			
-			currentShape = 'cuboid';
+			currentShape = 1;
 			GenerateShape ();
 		}
 	
@@ -332,9 +151,9 @@
 <body>
 	<div class="page">
 		<div class="menu" id="mainmenu">
-			<div class="text" id="maintext">cuboid</div>
-			<a href="javascript:ShowMenu ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
-			<a href="javascript:ShowSettings ();"><div class="righticonbutton"><img src="images/settings.png"></div></a>
+			<div class="text" id="maintext">solids</div>
+			<a href="javascript:ShowShapeList ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
+			<div class="righticonbutton"><img src="images/settings.png"></div>
 		</div>
 		<div class="content">
 			<canvas id="viewer" width="300" height="200"></canvas>
@@ -343,27 +162,38 @@
 
 	<div class="page">
 		<div class="menu">
-			<div class="text">settings</div>
-			<a href="javascript:Back ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
+			<div class="text">solids</div>
+			<a href="javascript:BackToMain ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
 		</div>
-		<div class="content" id="settingscontent">
+		<div class="content">
+
 		</div>
 	</div>
 
 	<div class="page">
 		<div class="menu">
-			<div class="text">select</div>
-			<a href="javascript:Back ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
+			<div class="text">solids</div>
+			<a href="javascript:BackToMain ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
 		</div>
 		<div class="content">
-			<a href="javascript:SetCurrentShape ('cuboid')"><div class="parameter">cuboid</div></a>
-			<a href="javascript:SetCurrentShape ('sphere')"><div class="parameter">sphere</div></a>
-			<a href="javascript:SetCurrentShape ('cylinder')"><div class="parameter">cylinder</div></a>
-			<a href="javascript:SetCurrentShape ('cone')"><div class="parameter">cone</div></a>
-			<a href="javascript:SetCurrentShape ('pie')"><div class="parameter">pie</div></a>
-			<a href="javascript:SetCurrentShape ('torus')"><div class="parameter">torus</div></a>
-			<a href="javascript:SetCurrentShape ('platonic')"><div class="parameter">platonic</div></a>
-			<a href="javascript:SetCurrentShape ('archimedean')"><div class="parameter">archimedean</div></a>
+			<a href="javascript:SetCurrentShape (0)"><div class="parameter">tetrahedron</div></a>
+			<a href="javascript:SetCurrentShape (1)"><div class="parameter">hexahedron</div></a>
+			<a href="javascript:SetCurrentShape (2)"><div class="parameter">octahedron</div></a>
+			<a href="javascript:SetCurrentShape (3)"><div class="parameter">dodecahedron</div></a>
+			<a href="javascript:SetCurrentShape (4)"><div class="parameter">icosahedron</div></a>
+			<a href="javascript:SetCurrentShape (5)"><div class="parameter">truncated tetrahedron</div></a>
+			<a href="javascript:SetCurrentShape (6)"><div class="parameter">cuboctahedron</div></a>
+			<a href="javascript:SetCurrentShape (7)"><div class="parameter">truncatedcube</div></a>
+			<a href="javascript:SetCurrentShape (8)"><div class="parameter">truncated octahedron</div></a>
+			<a href="javascript:SetCurrentShape (9)"><div class="parameter">rhombicuboctahedron</div></a>
+			<a href="javascript:SetCurrentShape (10)"><div class="parameter">truncated cuboctahedron</div></a>
+			<a href="javascript:SetCurrentShape (11)"><div class="parameter">snub cube</div></a>
+			<a href="javascript:SetCurrentShape (12)"><div class="parameter">icosidodecahedron</div></a>
+			<a href="javascript:SetCurrentShape (13)"><div class="parameter">truncated dodecahedron</div></a>
+			<a href="javascript:SetCurrentShape (14)"><div class="parameter">truncated icosahedron</div></a>
+			<a href="javascript:SetCurrentShape (15)"><div class="parameter">rhombicosidodecahedron</div></a>
+			<a href="javascript:SetCurrentShape (16)"><div class="parameter">truncated icosidodecahedron</div></a>
+			<a href="javascript:SetCurrentShape (17)"><div class="parameter">snub dodecahedron</div></a>
 		</div>
 	</div>	
 </body>
