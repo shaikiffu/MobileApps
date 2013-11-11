@@ -39,9 +39,12 @@
 				'TruncatedIcosahedron',
 				'Rhombicosidodecahedron',
 				'TruncatedIcosidodecahedron',
-				'SnubDodecahedron'
+				'SnubDodecahedron',
+				'SmallStellatedDodecahedron',
+				'GreatDodecahedron',
+				'GreatStellatedDodecahedron'
 			];
-		
+
 			var body = JSM.GenerateSolidWithRadius (shapeNames[currentShape], 1.0);
 			
 			var materials = new JSM.Materials ();
@@ -86,7 +89,7 @@
 
 		function ShowShapeList ()
 		{
-			pageHandler.SetToPage (2);
+			pageHandler.SetToPage (1);
 			Resize ();
 		}
 
@@ -127,7 +130,8 @@
 				cameraEyePosition : [-2.0, -1.5, 1.0],
 				cameraCenterPosition : [0.0, 0.0, 0.0],
 				cameraUpVector : [0, 0, 1],
-				cameraDisableZoom : true
+				cameraDisableZoom : true,
+				cameraFixUp : false
 			};
 
 			viewer = new JSM.Viewer ();
@@ -153,7 +157,6 @@
 		<div class="menu" id="mainmenu">
 			<div class="text" id="maintext">solids</div>
 			<a href="javascript:ShowShapeList ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
-			<div class="righticonbutton"><img src="images/settings.png"></div>
 		</div>
 		<div class="content">
 			<canvas id="viewer" width="300" height="200"></canvas>
@@ -166,21 +169,13 @@
 			<a href="javascript:BackToMain ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
 		</div>
 		<div class="content">
-
-		</div>
-	</div>
-
-	<div class="page">
-		<div class="menu">
-			<div class="text">solids</div>
-			<a href="javascript:BackToMain ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
-		</div>
-		<div class="content">
+			<div class="parametertitle">platonic solids</div>
 			<a href="javascript:SetCurrentShape (0)"><div class="parameter">tetrahedron</div></a>
 			<a href="javascript:SetCurrentShape (1)"><div class="parameter">hexahedron</div></a>
 			<a href="javascript:SetCurrentShape (2)"><div class="parameter">octahedron</div></a>
 			<a href="javascript:SetCurrentShape (3)"><div class="parameter">dodecahedron</div></a>
 			<a href="javascript:SetCurrentShape (4)"><div class="parameter">icosahedron</div></a>
+			<div class="parametertitle">archimedean solids</div>
 			<a href="javascript:SetCurrentShape (5)"><div class="parameter">truncated tetrahedron</div></a>
 			<a href="javascript:SetCurrentShape (6)"><div class="parameter">cuboctahedron</div></a>
 			<a href="javascript:SetCurrentShape (7)"><div class="parameter">truncatedcube</div></a>
@@ -194,6 +189,10 @@
 			<a href="javascript:SetCurrentShape (15)"><div class="parameter">rhombicosidodecahedron</div></a>
 			<a href="javascript:SetCurrentShape (16)"><div class="parameter">truncated icosidodecahedron</div></a>
 			<a href="javascript:SetCurrentShape (17)"><div class="parameter">snub dodecahedron</div></a>
+			<div class="parametertitle">dodecahedron stellations</div>
+			<a href="javascript:SetCurrentShape (18)"><div class="parameter">small stellated dodecahedron</div></a>
+			<a href="javascript:SetCurrentShape (19)"><div class="parameter">great dodecahedron</div></a>
+			<a href="javascript:SetCurrentShape (20)"><div class="parameter">great stellated dodecahedron</div></a>
 		</div>
 	</div>	
 </body>
