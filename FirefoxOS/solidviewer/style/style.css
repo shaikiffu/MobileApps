@@ -30,6 +30,7 @@ div.menu
 	background : -moz-linear-gradient(top, #cd6723, #bb482d);
 	font-family: FiraSansRegular;
 	font-size : 29px;
+	box-shadow: 0px 0px 3px #000000;
 	width : 100%;
 	overflow: auto;
 }
