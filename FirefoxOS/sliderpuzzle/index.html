@@ -54,7 +54,7 @@
 			}
 		}
 
-		function Refresh ()
+		function Restart ()
 		{
 			SetNewImage ();
 			ShowMainPage ();
@@ -63,7 +63,7 @@
 		function ChangeSize (size)
 		{
 			settings.tileCount = size;
-			Refresh ();
+			Restart ();
 		}
 		
 		function Resize ()
@@ -162,8 +162,9 @@
 			<a href="javascript:ShowMainPage ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
 		</div>
 		<div class="content">
-			<div class="parametertitle">image</div>
+			<div class="parametertitle">tools</div>
 			<a href="javascript:SelectImage ();"><div class="parameter">select image</div></a>
+			<a href="javascript:Restart ();"><div class="parameter">restart</div></a>
 			<div class="parametertitle">size</div>
 			<a href="javascript:ChangeSize (3);"><div class="parameter">3 x 3</div></a>
 			<a href="javascript:ChangeSize (4);"><div class="parameter">4 x 4</div></a>
