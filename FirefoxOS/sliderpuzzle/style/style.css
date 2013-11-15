@@ -44,7 +44,7 @@ div.text
 div.content
 {
 	font-family: FiraSansLight;
-	font-size : 18px;
+	font-size : 25px;
 	overflow : auto;
 	height : 300px;
 }
