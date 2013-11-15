@@ -9,6 +9,7 @@ SliderPuzzle = function ()
 {
 	this.parentDiv = null;
 	this.callbacks = null;
+	this.enable = null;
 	
 	this.tiles = null;
 	this.tileCount = null;
@@ -27,6 +28,7 @@ SliderPuzzle.prototype =
 		if (this.callbacks === undefined || this.callbacks === null) {
 			this.callbacks = new SliderPuzzleCallbacks ();
 		}
+		this.enable = true;
 	},
 	
 	Generate : function (tileCount)
@@ -64,6 +66,74 @@ SliderPuzzle.prototype =
 		}
 	},
 	
+	Shuffle : function (steps)
+	{
+		function RandomInt (from, to)
+		{
+			return Math.floor ((Math.random () * (to - from + 1)) + from); 
+		}
+		
+		var row, column;
+		var i, j, tile;
+
+		for (i = 0; i < this.tileCount; i++) {
+			for (j = 0; j < this.tileCount; j++) {
+				tile = this.tiles[this.GetIndex (i, j)];
+				if (tile.slideIndex == -1) {
+					row = i;
+					column = j;
+					break;
+				}
+			}
+		}
+
+		var directions = [];
+		var direction = [0, 0];
+		
+		var left = [0, -1];
+		var right = [0, 1];
+		var top = [-1, 0];
+		var bottom = [1, 0];
+		
+		for (i = 0; i < steps; i++) {
+			directions = [];
+			if (this.GetTile (row, column - 1) !== null) {
+				if (direction.toString () != right.toString ()) {
+					directions.push (left);
+				}
+			}
+			if (this.GetTile (row, column + 1) !== null) {
+				if (direction.toString () != left.toString ()) {
+					directions.push (right);
+				}
+			}
+			if (this.GetTile (row - 1, column) !== null) {
+				if (direction.toString () != bottom.toString ()) {
+					directions.push (top);
+				}
+			}
+			if (this.GetTile (row + 1, column) !== null) {
+				if (direction.toString () != top.toString ()) {
+					directions.push (bottom);
+				}
+			}
+			
+			if (directions.length === 0) {
+				continue;
+			}
+			
+			direction = directions[RandomInt (0, directions.length - 1)];
+			this.SwapTiles (row, column, row + direction[0], column + direction[1]);
+			row = row + direction[0];
+			column = column + direction[1];
+		}
+	},
+	
+	Enable : function (enable)
+	{
+		this.enable = enable;
+	},
+
 	Resize : function ()
 	{
 		this.CalculateTileSize ();
@@ -82,8 +152,8 @@ SliderPuzzle.prototype =
 	
 	CalculateTileSize : function ()
 	{
-		this.tileSizeX = parseInt (this.parentDiv.clientWidth / this.tileCount);
-		this.tileSizeY = parseInt (this.parentDiv.clientHeight / this.tileCount);
+		this.tileSizeX = parseInt (this.parentDiv.clientWidth / this.tileCount, 10);
+		this.tileSizeY = parseInt (this.parentDiv.clientHeight / this.tileCount, 10);
 	},
 	
 	AddEvents : function (tile)
@@ -102,14 +172,14 @@ SliderPuzzle.prototype =
 	
 	FindRowColumn : function (x, y)
 	{
-		var row = parseInt (y / this.tileSizeY);
-		var column = parseInt (x / this.tileSizeX);
+		var row = parseInt (y / this.tileSizeY, 10);
+		var column = parseInt (x / this.tileSizeX, 10);
 		return [row, column];
 	},
 	
 	GetIndex : function (row, column)
 	{
-		return column + row * this.tileCount
+		return column + row * this.tileCount;
 	},
 	
 	GetTile : function (row, column)
@@ -128,6 +198,21 @@ SliderPuzzle.prototype =
 			return false;
 		}
 		return tile.slideIndex == -1;
+	},
+	
+	GetMoveDirection : function (row, column)
+	{
+		var moveDirection = null;
+		if (this.IsEmptyTile (row, column - 1)) {
+			moveDirection = [0, -1];
+		} else if (this.IsEmptyTile (row, column + 1)) {
+			moveDirection = [0, 1];
+		} else if (this.IsEmptyTile (row - 1, column)) {
+			moveDirection = [-1, 0];
+		} else if (this.IsEmptyTile (row + 1, column)) {
+			moveDirection = [1, 0];
+		}
+		return moveDirection;
 	},
 	
 	SwapTiles : function (fromRow, fromColumn, toRow, toColumn)
@@ -216,8 +301,11 @@ SliderPuzzle.prototype =
 
 	OnInputStart : function (x, y)
 	{
+		if (!this.enable) {	
+			return;
+		}
+	
 		this.movementData = null;
-
 		var rowAndColumn = this.FindRowColumn (x, y);
 		if (rowAndColumn === null) {
 			return;
@@ -228,17 +316,7 @@ SliderPuzzle.prototype =
 			return;
 		}
 		
-		var moveDirection = null;
-		if (this.IsEmptyTile (rowAndColumn[0], rowAndColumn[1] - 1)) {
-			moveDirection = [0, -1];
-		} else if (this.IsEmptyTile (rowAndColumn[0], rowAndColumn[1] + 1)) {
-			moveDirection = [0, 1];
-		} else if (this.IsEmptyTile (rowAndColumn[0] - 1, rowAndColumn[1])) {
-			moveDirection = [-1, 0];
-		} else if (this.IsEmptyTile (rowAndColumn[0] + 1, rowAndColumn[1])) {
-			moveDirection = [1, 0];
-		}
-
+		var moveDirection = this.GetMoveDirection (rowAndColumn[0], rowAndColumn[1]);
 		if (moveDirection === null) {
 			return;
 		}
@@ -249,8 +327,8 @@ SliderPuzzle.prototype =
 			origRow : rowAndColumn[0],
 			origColumn : rowAndColumn[1],
 			tile : tile,
-			origTileLeft : parseInt (tile.style.left),
-			origTileTop : parseInt (tile.style.top),
+			origTileLeft : parseInt (tile.style.left, 10),
+			origTileTop : parseInt (tile.style.top, 10),
 			hasMoved : false,
 			moveDirection : moveDirection
 		};		
@@ -287,17 +365,21 @@ SliderPuzzle.prototype =
 			return newPos;		
 		}
 		
+		if (!this.enable) {	
+			return;
+		}
+
 		if (this.movementData === null) {
 			return;
 		}
 		
 		var newTileLeft, newTileTop, moveDir, min, max;
-		if (this.movementData.moveDirection[0] == 0 && this.movementData.moveDirection[1] != 0) {
+		if (this.movementData.moveDirection[0] === 0 && this.movementData.moveDirection[1] !== 0) {
 			moveDir = this.movementData.moveDirection[1];
 			newTileLeft = MoveTile (moveDir, this.movementData.origTileLeft, x, this.movementData.origX, this.tileSizeX);
 			this.movementData.hasMoved = Math.abs (newTileLeft - this.movementData.origTileLeft) > this.tileSizeX / 2.0;
 			this.movementData.tile.style.left = newTileLeft + 'px';
-		} else if (this.movementData.moveDirection[0] != 0 && this.movementData.moveDirection[1] == 0) {
+		} else if (this.movementData.moveDirection[0] !== 0 && this.movementData.moveDirection[1] === 0) {
 			moveDir = this.movementData.moveDirection[0];
 			newTileTop = MoveTile (moveDir, this.movementData.origTileTop, y, this.movementData.origY, this.tileSizeY);
 			this.movementData.hasMoved = Math.abs (newTileTop - this.movementData.origTileTop) > this.tileSizeY / 2.0;
@@ -307,6 +389,10 @@ SliderPuzzle.prototype =
 	
 	OnInputEnd : function ()
 	{
+		if (!this.enable) {	
+			return;
+		}
+
 		if (this.movementData === null) {
 			return;
 		}

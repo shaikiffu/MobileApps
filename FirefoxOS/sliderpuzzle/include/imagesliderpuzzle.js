@@ -20,7 +20,16 @@ ImageSliderPuzzle.prototype =
 	Generate : function (tableCount)
 	{
 		this.slider.Generate (tableCount);
-		this.UpdateImage ();
+	},
+	
+	Shuffle : function (steps)
+	{
+		this.slider.Shuffle (steps);
+	},
+	
+	Enable : function (enable)
+	{
+		this.slider.Enable (enable);
 	},
 	
 	Resize : function ()
@@ -28,11 +37,10 @@ ImageSliderPuzzle.prototype =
 		this.slider.Resize ();
 	},
 	
-	UpdateImage : function ()
+	SetImage : function (image)
 	{
-		this.image = new Image();
-		this.image.src = "Koala.jpg";
-		this.image.onload = this.UpdateImageOnTiles.bind (this);
+		this.image = image;
+		this.UpdateImageOnTiles ();
 	},
 
 	OnTileCreated : function (tile, row, column, empty)
@@ -57,8 +65,8 @@ ImageSliderPuzzle.prototype =
 	
 	SetCanvasSize : function (tile, canvas)
 	{
-		canvas.width = parseInt (tile.style.width) - 2;
-		canvas.height = parseInt (tile.style.height) - 2;
+		canvas.width = parseInt (tile.style.width, 10) - 2;
+		canvas.height = parseInt (tile.style.height, 10) - 2;
 	},
 	
 	UpdateImageOnTiles : function ()
@@ -87,7 +95,7 @@ ImageSliderPuzzle.prototype =
 		
 		var canvas = tile.firstChild;
 		var context = canvas.getContext ('2d');
-		var row = parseInt (index / this.slider.tileCount);
+		var row = parseInt (index / this.slider.tileCount, 10);
 		var column = index % this.slider.tileCount;
 		
 		var imageWidth = this.image.width;
@@ -102,19 +110,19 @@ ImageSliderPuzzle.prototype =
 		
 		var startX, startY, endX, endY, tileX, tileY;
 		if (xRatio <= yRatio) {
-			startX = parseInt (0);
-			startY = parseInt ((imageHeight - xRatio * tableHeight) / 2);
+			startX = parseInt (0, 10);
+			startY = parseInt ((imageHeight - xRatio * tableHeight) / 2, 10);
 			endX = imageWidth;
 			endY = imageHeight - startY;
-			tileX = parseInt ((endX - startX) / this.slider.tileCount);
-			tileY = parseInt ((endY - startY) / this.slider.tileCount);
+			tileX = parseInt ((endX - startX) / this.slider.tileCount, 10);
+			tileY = parseInt ((endY - startY) / this.slider.tileCount, 10);
 		} else {
-			startX = parseInt ((imageWidth - yRatio * tableWidth) / 2);
-			startY = parseInt (0);
+			startX = parseInt ((imageWidth - yRatio * tableWidth) / 2, 10);
+			startY = parseInt (0, 10);
 			endX = imageWidth - startX;
 			endY = imageHeight;
-			tileX = parseInt ((endX - startX) / this.slider.tileCount);
-			tileY = parseInt ((endY - startY) / this.slider.tileCount);
+			tileX = parseInt ((endX - startX) / this.slider.tileCount, 10);
+			tileY = parseInt ((endY - startY) / this.slider.tileCount, 10);
 		}
 		
 		context.drawImage (this.image,

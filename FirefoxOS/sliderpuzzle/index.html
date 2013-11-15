@@ -42,6 +42,33 @@
 			}
 		}
 
+		function Init ()
+		{
+			function ImageLoaded (image)
+			{
+				function Shuffle ()
+				{
+					slider.Shuffle (50);
+					slider.Enable (true);
+				}
+
+				slider.Generate (tileCount);
+				slider.SetImage (image);
+				slider.Enable (false);
+				
+				setTimeout (Shuffle, 2000);
+			}
+		
+			var table = document.getElementById ('table');
+			slider.Init (table);
+			
+			var image = new Image();
+			image.src = 'Koala.jpg';
+			image.onload = function () {
+				ImageLoaded (this);
+			};			
+		}
+		
 		function Load ()
 		{
 			pageHandler = new PageHandler ();
@@ -51,9 +78,7 @@
 			Resize ();
 
 			slider = new ImageSliderPuzzle ();
-			var table = document.getElementById ('table');
-			slider.Init (table);
-			slider.Generate (tileCount);
+			Init ();
 		}
 	
 	    window.onload = function ()
