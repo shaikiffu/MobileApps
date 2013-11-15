@@ -16,7 +16,11 @@
 	<script type="text/javascript">
 		var pageHandler = null;
 		var slider = null;
-		var tileCount = 3;
+		var settings = {
+			tileCount : 3,
+			image : null,
+			loaded : false
+		};
 
 		function ShowMainPage ()
 		{
@@ -30,9 +34,29 @@
 			Resize ();
 		}
 		
+		function SelectImage ()
+		{
+			var activity = new MozActivity ({
+				name: "pick",
+				data: {
+					type: "image/*"
+				}
+			});
+
+			activity.onsuccess = function () {
+				ShowMainPage ();
+				settings.loaded = false;
+				Init (URL.createObjectURL (this.result.blob));
+			}
+
+			activity.onerror = function () {
+				
+			}
+		}
+
 		function ChangeSize (size)
 		{
-			tileCount = size;
+			settings.tileCount = size;
 			Init ();
 			ShowMainPage ();
 		}
@@ -50,8 +74,8 @@
 				var margin = 20;
 				var newWidth = window.innerWidth - margin;
 				var newHeight = window.innerHeight - menu.clientHeight - margin;
-				content.style.width = (newWidth - newWidth % tileCount) + 'px';
-				content.style.height = (newHeight - newHeight % tileCount) + 'px';
+				content.style.width = (newWidth - newWidth % settings.tileCount) + 'px';
+				content.style.height = (newHeight - newHeight % settings.tileCount) + 'px';
 				content.style.margin = (margin / 2) + 'px';
 				if (slider !== null) {
 					slider.Resize ();
@@ -62,7 +86,7 @@
 			}
 		}
 
-		function Init ()
+		function Init (imageUrl)
 		{
 			function ImageLoaded (image)
 			{
@@ -72,7 +96,6 @@
 					slider.Enable (true);
 				}
 
-				slider.Generate (tileCount);
 				slider.SetImage (image);
 				slider.Enable (false);
 				
@@ -81,12 +104,18 @@
 		
 			var table = document.getElementById ('table');
 			slider.Init (table);
+			slider.Generate (settings.tileCount);
 			
-			var image = new Image();
-			image.src = 'Koala.jpg';
-			image.onload = function () {
-				ImageLoaded (this);
-			};			
+			if (!settings.loaded) {
+				settings.image = new Image ();
+				settings.image.src = imageUrl;
+				settings.image.onload = function () {
+					settings.loaded = true;
+					ImageLoaded (this);
+				};
+			} else {
+				ImageLoaded (settings.image);
+			}
 		}
 		
 		function Load ()
@@ -102,7 +131,7 @@
 			Resize ();
 
 			slider = new ImageSliderPuzzle ();
-			Init ();
+			Init ('Koala.jpg');
 		}
 	
 	    window.onload = function ()
@@ -117,8 +146,7 @@
 	<div class="page">
 		<div class="menu" id="mainmenu">
 			<div class="text" id="maintext">slider</div>
-			<a href="javascript:ShowShapeList ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
-			<a href="javascript:ShowSettings ();"><div class="righticonbutton"><img src="images/settings.png"></div></a>
+			<a href="javascript:ShowSettings ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
 		</div>
 		<div id="table" class="content">
 		</div>
@@ -129,6 +157,9 @@
 			<a href="javascript:ShowMainPage ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
 		</div>
 		<div class="content">
+			<div class="parametertitle">image</div>
+			<a href="javascript:SelectImage ();"><div class="parameter">select image</div></a>
+			<div class="parametertitle">size</div>
 			<a href="javascript:ChangeSize (3);"><div class="parameter">3 x 3</div></a>
 			<a href="javascript:ChangeSize (4);"><div class="parameter">4 x 4</div></a>
 			<a href="javascript:ChangeSize (5);"><div class="parameter">5 x 5</div></a>
