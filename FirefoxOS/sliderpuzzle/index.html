@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	 "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7;" > 
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="style/style.css">
+	<script type="text/javascript" src="include/pagehandler.js"></script>
+	<script type="text/javascript" src="include/sliderpuzzle.js"></script>
+	<script type="text/javascript" src="include/imagesliderpuzzle.js"></script>
+	<title>Slider Puzzle</title>
+	<script type="text/javascript">
+		var pageHandler = null;
+		var slider = null;
+		var tileCount = 3;
+
+		function Resize ()
+		{
+			var page = pageHandler.GetPage ();
+			var menus = document.getElementsByClassName ('menu');
+			var contents = document.getElementsByClassName ('content');
+			
+			var menu = menus[page];
+			var content = contents[page];
+			content.style.width = window.innerWidth + 'px';
+			content.style.height = (window.innerHeight - menu.clientHeight) + 'px';
+			
+			if (page == 0) {
+				var margin = 20;
+				var newWidth = window.innerWidth - margin;
+				var newHeight = window.innerHeight - menu.clientHeight - margin;
+				content.style.width = (newWidth - newWidth % tileCount) + 'px';
+				content.style.height = (newHeight - newHeight % tileCount) + 'px';
+				content.style.margin = (margin / 2) + 'px';
+				if (slider !== null) {
+					slider.Resize ();
+				}
+			}
+		}
+
+		function Load ()
+		{
+			pageHandler = new PageHandler ();
+			pageHandler.SetToPage (0);
+
+			window.onresize = Resize;
+			Resize ();
+
+			slider = new ImageSliderPuzzle ();
+			var table = document.getElementById ('table');
+			slider.Init (table);
+			slider.Generate (tileCount);
+		}
+	
+	    window.onload = function ()
+		{
+			Load ();
+		}
+	</script>
+
+</head>
+
+<body>
+	<div class="page">
+		<div class="menu" id="mainmenu">
+			<div class="text" id="maintext">slider</div>
+			<a href="javascript:ShowShapeList ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
+		</div>
+		<div id="table" class="content" style="">
+		</div>
+	</div>
+</body>
+
+</html>
