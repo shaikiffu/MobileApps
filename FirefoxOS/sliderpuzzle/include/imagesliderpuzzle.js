@@ -1,14 +1,17 @@
 ImageSliderPuzzle = function ()
 {
 	this.slider = null;
+	this.onWin = null;
 	this.image = null;
 };
 
 ImageSliderPuzzle.prototype =
 {
-	Init : function (parentDiv)
+	Init : function (parentDiv, onWin)
 	{
 		this.slider = new SliderPuzzle ();
+		this.onWin = onWin;
+		
 		var callbacks = new SliderPuzzleCallbacks ();
 		callbacks.onTileCreated = this.OnTileCreated.bind (this);
 		callbacks.onTileResized = this.OnTileResized.bind (this);
@@ -138,6 +141,8 @@ ImageSliderPuzzle.prototype =
 
 	OnWin : function ()
 	{
-		alert ('win');
+		if (this.onWin !== null) {
+			this.onWin ();
+		}
 	}
 };

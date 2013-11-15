@@ -66,6 +66,12 @@
 			Restart ();
 		}
 		
+		function OnWin ()
+		{
+			alert ('Congratulations!');
+			slider.Enable (false);
+		}
+		
 		function Resize ()
 		{
 			var page = pageHandler.GetPage ();
@@ -108,7 +114,6 @@
 			}
 		
 			var table = document.getElementById ('table');
-			slider.Init (table);
 			slider.Generate (settings.tileCount);
 			
 			if (!settings.loaded || imageUrl !== undefined) {
@@ -136,6 +141,7 @@
 			Resize ();
 
 			slider = new ImageSliderPuzzle ();
+			slider.Init (table, OnWin);
 			SetNewImage ('firefoxos.png');
 		}
 	
