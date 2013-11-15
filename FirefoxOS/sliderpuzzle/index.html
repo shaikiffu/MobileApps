@@ -46,7 +46,7 @@
 			activity.onsuccess = function () {
 				ShowMainPage ();
 				settings.loaded = false;
-				Init (URL.createObjectURL (this.result.blob));
+				SetNewImage (URL.createObjectURL (this.result.blob));
 			}
 
 			activity.onerror = function () {
@@ -54,11 +54,16 @@
 			}
 		}
 
+		function Refresh ()
+		{
+			SetNewImage ();
+			ShowMainPage ();
+		}
+		
 		function ChangeSize (size)
 		{
 			settings.tileCount = size;
-			Init ();
-			ShowMainPage ();
+			Refresh ();
 		}
 		
 		function Resize ()
@@ -86,7 +91,7 @@
 			}
 		}
 
-		function Init (imageUrl)
+		function SetNewImage (imageUrl)
 		{
 			function ImageLoaded (image)
 			{
@@ -99,14 +104,14 @@
 				slider.SetImage (image);
 				slider.Enable (false);
 				
-				setTimeout (Shuffle, 2000);
+				setTimeout (Shuffle, 3000);
 			}
 		
 			var table = document.getElementById ('table');
 			slider.Init (table);
 			slider.Generate (settings.tileCount);
 			
-			if (!settings.loaded) {
+			if (!settings.loaded || imageUrl !== undefined) {
 				settings.image = new Image ();
 				settings.image.src = imageUrl;
 				settings.image.onload = function () {
@@ -131,7 +136,7 @@
 			Resize ();
 
 			slider = new ImageSliderPuzzle ();
-			Init ('Koala.jpg');
+			SetNewImage ('firefoxos.png');
 		}
 	
 	    window.onload = function ()
