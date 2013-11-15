@@ -45,8 +45,6 @@
 			
 			var menu = menus[page];
 			var content = contents[page];
-			content.style.width = window.innerWidth + 'px';
-			content.style.height = (window.innerHeight - menu.clientHeight) + 'px';
 			
 			if (page == 0) {
 				var margin = 20;
@@ -58,6 +56,9 @@
 				if (slider !== null) {
 					slider.Resize ();
 				}
+			} else {
+				content.style.width = window.innerWidth + 'px';
+				content.style.height = (window.innerHeight - menu.clientHeight) + 'px';
 			}
 		}
 
@@ -67,7 +68,7 @@
 			{
 				function Shuffle ()
 				{
-					slider.Shuffle (3);
+					slider.Shuffle (50);
 					slider.Enable (true);
 				}
 
@@ -93,6 +94,10 @@
 			pageHandler = new PageHandler ();
 			pageHandler.SetToPage (0);
 
+			if (window.screen.mozLockOrientation) {
+				window.screen.mozLockOrientation ('portrait');
+			}
+			
 			window.onresize = Resize;
 			Resize ();
 
