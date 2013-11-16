@@ -50,7 +50,6 @@ ImageSliderPuzzle.prototype =
 	{
 		if (!empty) {
 			var canvas = document.createElement ('canvas');
-			canvas.style.border = '1px solid #000000';
 			this.SetCanvasSize (tile, canvas);
 			tile.appendChild (canvas);
 		}
@@ -68,8 +67,8 @@ ImageSliderPuzzle.prototype =
 	
 	SetCanvasSize : function (tile, canvas)
 	{
-		canvas.width = parseInt (tile.style.width, 10) - 2;
-		canvas.height = parseInt (tile.style.height, 10) - 2;
+		canvas.width = parseInt (tile.style.width, 10) - 1;
+		canvas.height = parseInt (tile.style.height, 10) - 1;
 	},
 	
 	UpdateImageOnTiles : function ()

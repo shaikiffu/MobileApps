@@ -36,21 +36,23 @@
 		
 		function SelectImage ()
 		{
-			var activity = new MozActivity ({
-				name: 'pick',
-				data: {
-					type: 'image/*'
+			try {
+				var activity = new MozActivity ({
+					name: 'pick',
+					data: {
+						type: 'image/*'
+					}
+				});
+				activity.onsuccess = function () {
+					ShowMainPage ();
+					settings.loaded = false;
+					SetNewImage (URL.createObjectURL (this.result.blob));
 				}
-			});
 
-			activity.onsuccess = function () {
-				ShowMainPage ();
-				settings.loaded = false;
-				SetNewImage (URL.createObjectURL (this.result.blob));
-			}
-
-			activity.onerror = function () {
-				
+				activity.onerror = function () {
+				}
+			} catch (ex) {
+				alert ('This is not supported on your device.');
 			}
 		}
 
