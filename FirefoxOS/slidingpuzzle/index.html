@@ -90,7 +90,6 @@
 				setTimeout (Shuffle, 3000);
 			}
 		
-			var table = document.getElementById ('table');
 			slider.Generate (settings.tileCount);
 			
 			if (!settings.loaded || imageUrl !== undefined) {
@@ -142,6 +141,7 @@
 			window.onresize = Resize;
 			Resize ();
 
+			var table = document.getElementById ('table');
 			slider = new ImageSlidingPuzzle ();
 			slider.Init (table, OnWin);
 			SetNewImage ('firefoxos.png');
