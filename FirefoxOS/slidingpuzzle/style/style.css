@@ -23,6 +23,11 @@ body
 	display: block;
 }
 
+div.page
+{
+	display : none;
+}
+
 div.menu
 {
 	color : #ffffff;
@@ -47,11 +52,6 @@ div.content
 	font-size : 25px;
 	overflow : auto;
 	height : 300px;
-}
-
-#table
-{
-
 }
 
 div.lefticonbutton

@@ -23,6 +23,11 @@ body
 	display: block;
 }
 
+div.page
+{
+	display : none;
+}
+
 div.menu
 {
 	color : #ffffff;
