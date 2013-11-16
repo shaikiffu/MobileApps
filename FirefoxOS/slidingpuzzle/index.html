@@ -10,8 +10,8 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<link rel="stylesheet" type="text/css" href="style/style.css">
 	<script type="text/javascript" src="include/pagehandler.js"></script>
-	<script type="text/javascript" src="include/sliderpuzzle.js"></script>
-	<script type="text/javascript" src="include/imagesliderpuzzle.js"></script>
+	<script type="text/javascript" src="include/slidingpuzzle.js"></script>
+	<script type="text/javascript" src="include/imageslidingpuzzle.js"></script>
 	<title>Slider Puzzle</title>
 	<script type="text/javascript">
 		var pageHandler = null;
@@ -142,7 +142,7 @@
 			window.onresize = Resize;
 			Resize ();
 
-			slider = new ImageSliderPuzzle ();
+			slider = new ImageSlidingPuzzle ();
 			slider.Init (table, OnWin);
 			SetNewImage ('firefoxos.png');
 		}
@@ -158,7 +158,7 @@
 <body>
 	<div class="page">
 		<div class="menu" id="mainmenu">
-			<div class="text" id="maintext">slider</div>
+			<div class="text" id="maintext">sliding</div>
 			<a href="javascript:ShowSettings ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
 		</div>
 		<div id="table" class="content">

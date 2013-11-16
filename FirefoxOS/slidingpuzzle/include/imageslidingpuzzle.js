@@ -1,18 +1,18 @@
-ImageSliderPuzzle = function ()
+ImageSlidingPuzzle = function ()
 {
 	this.slider = null;
 	this.onWin = null;
 	this.image = null;
 };
 
-ImageSliderPuzzle.prototype =
+ImageSlidingPuzzle.prototype =
 {
 	Init : function (parentDiv, onWin)
 	{
-		this.slider = new SliderPuzzle ();
+		this.slider = new SlidingPuzzle ();
 		this.onWin = onWin;
 		
-		var callbacks = new SliderPuzzleCallbacks ();
+		var callbacks = new SlidingPuzzleCallbacks ();
 		callbacks.onTileCreated = this.OnTileCreated.bind (this);
 		callbacks.onTileResized = this.OnTileResized.bind (this);
 		callbacks.onWin = this.OnWin.bind (this);
@@ -136,6 +136,12 @@ ImageSliderPuzzle.prototype =
 			0,
 			canvasWidth,
 			canvasHeight);
+		
+		/*
+			context.fillStyle = '#ffffff';
+			context.font = 'normal 15px Arial';
+			context.fillText ((tile.slideIndex + 1), 10, 20);
+		*/
 	},
 
 	OnWin : function ()

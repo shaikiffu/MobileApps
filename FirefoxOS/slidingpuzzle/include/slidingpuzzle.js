@@ -1,11 +1,11 @@
-SliderPuzzleCallbacks = function ()
+SlidingPuzzleCallbacks = function ()
 {
 	this.onTileCreated = null;
 	this.onTileResized = null;
 	this.onWin = null;
 };
 
-SliderPuzzle = function ()
+SlidingPuzzle = function ()
 {
 	this.parentDiv = null;
 	this.callbacks = null;
@@ -19,7 +19,7 @@ SliderPuzzle = function ()
 	this.movementData = null;
 };
 
-SliderPuzzle.prototype =
+SlidingPuzzle.prototype =
 {
 	Init : function (parentDiv, callbacks)
 	{
