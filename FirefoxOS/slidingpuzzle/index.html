@@ -150,10 +150,6 @@
 			pageHandler = new PageHandler ();
 			pageHandler.SetToPage (0);
 
-			if (window.screen.mozLockOrientation) {
-				window.screen.mozLockOrientation ('portrait');
-			}
-			
 			window.onresize = Resize;
 			Resize ();
 

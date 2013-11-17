@@ -11,5 +11,6 @@
     "name": "Viktor Kovacs",
     "url": "http://kovacsv.hu"
   },
-  "default_locale": "en"
+  "default_locale": "en",
+  "orientation": ["portrait"]
 }
