@@ -24,7 +24,8 @@
 		var settings = {
 			tileCount : 3,
 			image : null,
-			loaded : false
+			loaded : false,
+			numbers : false
 		};
 
 		function ShowMainPage ()
@@ -36,6 +37,8 @@
 		function ShowSettings ()
 		{
 			pageHandler.SetToPage (1);
+			var showNumbersDiv = document.getElementById ('shownumbers');
+			showNumbersDiv.innerHTML = settings.numbers ? 'hide numbers' : 'show numbers';
 			Resize ();
 		}
 		
@@ -60,7 +63,7 @@
 				alert ('This is not supported on your device.');
 			}
 		}
-
+		
 		function Restart ()
 		{
 			SetNewImage ();
@@ -71,6 +74,13 @@
 		{
 			settings.tileCount = size;
 			Restart ();
+		}
+
+		function ShowNumbers ()
+		{
+			settings.numbers = !settings.numbers;
+			slider.ShowNumbers (settings.numbers);
+			ShowMainPage ();
 		}
 		
 		function OnWin ()
@@ -177,6 +187,7 @@
 		<div class="content">
 			<div class="parametertitle">tools</div>
 			<a href="javascript:SelectImage ();"><div class="parameter">select image</div></a>
+			<a href="javascript:ShowNumbers ();"><div class="parameter" id="shownumbers">show numbers</div></a>
 			<a href="javascript:Restart ();"><div class="parameter">restart</div></a>
 			<div class="parametertitle">size</div>
 			<a href="javascript:ChangeSize (3);"><div class="parameter">3 x 3</div></a>

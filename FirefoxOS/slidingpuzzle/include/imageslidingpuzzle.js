@@ -3,21 +3,22 @@ ImageSlidingPuzzle = function ()
 	this.slider = null;
 	this.onWin = null;
 	this.image = null;
+	this.numbers = null;
 };
 
 ImageSlidingPuzzle.prototype =
 {
 	Init : function (parentDiv, onWin)
 	{
-		this.slider = new SlidingPuzzle ();
-		this.onWin = onWin;
-		
 		var callbacks = new SlidingPuzzleCallbacks ();
 		callbacks.onTileCreated = this.OnTileCreated.bind (this);
 		callbacks.onTileResized = this.OnTileResized.bind (this);
 		callbacks.onWin = this.OnWin.bind (this);
 		
+		this.slider = new SlidingPuzzle ();
 		this.slider.Init (parentDiv, callbacks);
+		this.onWin = onWin;
+		this.numbers = false;
 	},
 	
 	Generate : function (tableCount)
@@ -28,6 +29,12 @@ ImageSlidingPuzzle.prototype =
 	Shuffle : function (steps)
 	{
 		this.slider.Shuffle (steps);
+	},
+	
+	ShowNumbers : function (showNumbers)
+	{
+		this.numbers = showNumbers;
+		this.UpdateImageOnTiles ();
 	},
 	
 	Enable : function (enable)
@@ -137,11 +144,18 @@ ImageSlidingPuzzle.prototype =
 			canvasWidth,
 			canvasHeight);
 		
-		/*
+		if (this.numbers) {
+			var textX = 10;
+			var textY = 30;
 			context.fillStyle = '#ffffff';
-			context.font = 'normal 15px Arial';
-			context.fillText ((tile.slideIndex + 1), 10, 20);
-		*/
+			context.font = 'bold 25px Arial';
+			context.fillText ((tile.slideIndex + 1), textX, textY);		
+
+			context.fillStyle = '#ffffff';
+			context.lineWidth = 1;
+			context.strokeStyle = '#000000';
+			context.strokeText ((tile.slideIndex + 1), textX, textY);		
+		}
 	},
 
 	OnWin : function ()
