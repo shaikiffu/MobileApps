@@ -80,6 +80,7 @@
 		{
 			settings.numbers = !settings.numbers;
 			slider.ShowNumbers (settings.numbers);
+			slider.UpdateImageOnTiles ();
 			ShowMainPage ();
 		}
 		
@@ -159,6 +160,7 @@
 			var table = document.getElementById ('table');
 			slider = new ImageSlidingPuzzle ();
 			slider.Init (table, OnWin);
+			slider.ShowNumbers (settings.numbers);
 			SetNewImage ('firefoxos.png');
 		}
 	
