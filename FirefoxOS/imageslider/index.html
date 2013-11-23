@@ -48,7 +48,7 @@
 				var activity = new MozActivity ({
 					name: 'pick',
 					data: {
-						type: 'image/*'
+						type: ["image/jpg", "image/jpeg", "img/png"]
 					}
 				});
 				activity.onsuccess = function () {
@@ -171,7 +171,7 @@
 <body>
 	<div class="page">
 		<div class="menu" id="mainmenu">
-			<div class="text" id="maintext">sliding puzzle</div>
+			<div class="text" id="maintext">image slider</div>
 			<a href="javascript:ShowSettings ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
 		</div>
 		<div id="table" class="content">
