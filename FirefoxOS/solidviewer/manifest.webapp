@@ -1,5 +1,6 @@
 {
   "name": "Solid Viewer",
+  "version": "1",
   "description": "WebGL based solid body viewer.",
   "launch_path": "/index.html",
   "icons": {
