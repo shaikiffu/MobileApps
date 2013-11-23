@@ -87,11 +87,28 @@
 			BackToMain ();
 		}
 		
+		function ShowProgressBar (show)
+		{
+			var progressBar = document.getElementById ('progressbar');
+			var canvas = document.getElementById ('viewer');
+			if (show) {
+				progressBar.style.display = 'block';
+				canvas.style.display = 'none';
+			} else {
+				progressBar.style.display = 'none';
+				canvas.style.display = 'block';
+			}
+		}
+		
 		function BackToMain ()
 		{
 			pageHandler.SetToPage (0);
 			Resize ();
-			GenerateShape ();
+			ShowProgressBar (true);
+			setTimeout (function () {
+				GenerateShape ();
+				ShowProgressBar (false);
+			}, 50);
 		}
 
 		function ShowShapeList ()
@@ -148,7 +165,7 @@
 			Resize ();
 			
 			currentShape = 1;
-			GenerateShape ();
+			BackToMain ();
 		}
 	
 	    window.onload = function ()
@@ -165,7 +182,8 @@
 			<div class="text" id="maintext">solids</div>
 			<a href="javascript:ShowShapeList ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
 		</div>
-		<div class="content">
+		<div class="content" id="maincontent">
+			<div id="progressbar" style="display:none;">please wait...</div>
 			<canvas id="viewer" width="300" height="200"></canvas>
 		</div>
 	</div>
