@@ -21,6 +21,10 @@
 	
 		function GenerateShape ()
 		{
+			if (viewer === null) {	
+				return;
+			}
+		
 			var shapeNames = [
 				'Tetrahedron',
 				'Hexahedron',
@@ -104,6 +108,7 @@
 		{
 			pageHandler.SetToPage (0);
 			Resize ();
+			
 			ShowProgressBar (true);
 			setTimeout (function () {
 				GenerateShape ();
@@ -144,11 +149,6 @@
 		function Load ()
 		{
 			pageHandler = new PageHandler ();
-			pageHandler.SetToPage (0);
-			
-			var TextureLoaded = function () {
-				viewer.Draw ();
-			};
 
 			var viewerSettings = {
 				cameraEyePosition : [-2.0, -1.5, 1.0],
@@ -158,13 +158,21 @@
 				cameraFixUp : true
 			};
 
-			viewer = new JSM.Viewer ();
-			viewer.Start ('viewer', viewerSettings);
+			var success = false;
+			try {
+				viewer = new JSM.Viewer ();
+				success = viewer.Start ('viewer', viewerSettings);
+			} catch (ex) {
+				success = false;
+			}
 
-			window.onresize = Resize;
-			Resize ();
-			
+			if (!success) {
+				viewer = null;
+				alert ('Error: Your browser does not support WebGL.');
+			}
+
 			currentShape = 1;
+			window.onresize = Resize;
 			BackToMain ();
 		}
 	
