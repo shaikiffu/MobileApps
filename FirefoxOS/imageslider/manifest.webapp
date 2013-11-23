@@ -1,6 +1,6 @@
 {
-  "name": "Image slider",
-  "version": "1",
+  "name": "Image Slider",
+  "version": "2",
   "description": "Image sliding puzzle which can use any images from your phone.",
   "launch_path": "/index.html",
   "icons": {
