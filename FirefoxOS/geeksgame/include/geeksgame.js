@@ -1,7 +1,33 @@
 var pageHandler = null;
+var questionHandler = null;
 
-function Restart ()
+function RenderQuestion ()
 {
+	var question = questionHandler.GetCurrentQuestion ();
+	
+	var pointsDiv = document.getElementById ('points');
+	var questionDiv = document.getElementById ('question');
+	var answer0Div = document.getElementById ('answer0');
+	var answer1Div = document.getElementById ('answer1');
+	var answer2Div = document.getElementById ('answer2');
+	var answer3Div = document.getElementById ('answer3');
+
+	pointsDiv.innerHTML = 'points: ' + questionHandler.GetPoints ();
+	questionDiv.innerHTML = question.question;
+	answer0Div.innerHTML = question.answer0;
+	answer1Div.innerHTML = question.answer1;
+	answer2Div.innerHTML = question.answer2;
+	answer3Div.innerHTML = question.answer3;
+}
+
+function Start ()
+{
+	questionHandler.Reset ();
+	var question = questionHandler.GenerateQuestion ();
+	RenderQuestion ();
+
+	pageHandler.SetToPage (1);
+	Resize ();
 }
 
 function Resize ()
@@ -43,6 +69,9 @@ function Load ()
 	pageHandler = new PageHandler ();
 	pageHandler.SetToPage (0);
 
+	questionHandler = new QuestionHandler ();
+	questionHandler.Init ();
+	
 	window.onresize = Resize;
 	Resize ();
 }
