@@ -27,7 +27,7 @@ body
 
 div.page
 {
-
+	display : none;
 }
 
 div.menu
@@ -53,13 +53,11 @@ div.content
 	font-family: FiraSansLight;
 	font-size : 25px;
 	overflow : auto;
-	height : 300px;
 }
 
 div.lefticonbutton
 {
 	float : left;
-	display : block;
 	display : block;
 	padding : 10px;
 }
@@ -69,6 +67,18 @@ div.righticonbutton
 	float : right;
 	display : block;
 	padding : 10px;
+}
+
+a.button
+{
+	color : #ffffff;
+	background : #008ab8;
+	font-size : 30px;
+	text-align : center;
+	display : block;
+	padding : 10px;
+	margin : 30px;
+	border-radius : 5px;
 }
 
 div.statusbar
