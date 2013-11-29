@@ -1,0 +1,129 @@
+@font-face
+{
+	font-family : FiraSansRegular;
+	src : url(../fonts/FiraSans-Regular.woff);
+}
+
+@font-face
+{
+	font-family : FiraSansLight;
+	src : url(../fonts/FiraSans-Light.woff);
+}
+
+html
+{
+	height : 100%;
+	font-family : Arial, cursive;
+}
+
+body
+{
+	color : #000000;
+	background : #ffffff;
+	margin : 0px;
+	height : 100%;
+	display : block;
+}
+
+div.page
+{
+
+}
+
+div.menu
+{
+	color : #ffffff;
+	background : #cd6723;
+	background : -moz-linear-gradient(top, #cd6723, #bb482d);
+	font-family : FiraSansRegular;
+	font-size : 29px;
+	box-shadow: 0px 0px 3px #000000;
+	width : 100%;
+	overflow: auto;
+}
+
+div.text
+{
+	float : left;
+	padding : 10px;
+}
+
+div.content
+{
+	font-family: FiraSansLight;
+	font-size : 25px;
+	overflow : auto;
+	height : 300px;
+}
+
+div.lefticonbutton
+{
+	float : left;
+	display : block;
+	display : block;
+	padding : 10px;
+}
+
+div.righticonbutton
+{
+	float : right;
+	display : block;
+	padding : 10px;
+}
+
+div.statusbar
+{
+	color : #000000;
+	background : #dddddd;
+	text-align : center;
+	width : 100%;
+	overflow: auto;
+}
+
+div.statusbarleft
+{
+	padding : 10px;
+	float : left;
+}
+
+div.statusbarright
+{
+	padding : 10px;
+	float : right;
+}
+
+div.question
+{
+	font-size : 50px;
+	text-align : center;
+	vertical-align : middle;
+	padding : 10px;
+	display : table-cell;
+}
+
+div.answer
+{
+	color : #ffffff;
+	background : #008ab8;
+	text-align : center;
+	padding : 10px;
+	margin-left : 5px;
+	margin-bottom : 5px;
+	border-radius : 5px;
+	float : left;
+}
+
+a
+{
+	color : #000000;
+	background : transparent;
+	text-decoration : none;
+}
+
+img
+{
+	display : block;
+	margin : 0px;
+	padding : 0px;
+	border : 0px;
+}
