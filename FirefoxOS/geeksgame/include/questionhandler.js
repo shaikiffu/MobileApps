@@ -49,9 +49,19 @@ QuestionHandler.prototype =
 		var rangeStart = 0;
 		var rangeEnd = 10;
 		
+		var rangeGrow = 5 * parseInt (this.points / 100, 10);
+		rangeStart += rangeGrow;
+		rangeEnd += rangeGrow;
+		
 		var correctAnswer = RandomInt (rangeStart, rangeEnd);
+		if (this.question !== null) {
+			while (correctAnswer == this.question.correctAnswer) {
+				correctAnswer = RandomInt (rangeStart, rangeEnd);
+			}
+		}
 		
 		this.question = {};
+		this.question.correctAnswer = correctAnswer;
 		this.question.question = correctAnswer.toString (2);
 		this.question.correct = RandomInt (0, 3);
 		this.question.answers = [];

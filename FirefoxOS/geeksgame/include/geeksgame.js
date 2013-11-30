@@ -3,42 +3,49 @@ var questionHandler = null;
 var timer = null;
 var timerValue = null;
 
-function RenderQuestion ()
-{
-	var question = questionHandler.GetCurrentQuestion ();
-	
-	var pointsDiv = document.getElementById ('points');
-	var questionDiv = document.getElementById ('question');
-	var answer0Div = document.getElementById ('answer0');
-	var answer1Div = document.getElementById ('answer1');
-	var answer2Div = document.getElementById ('answer2');
-	var answer3Div = document.getElementById ('answer3');
-
-	pointsDiv.innerHTML = 'points: ' + questionHandler.GetPoints ();
-	questionDiv.innerHTML = question.question;
-	answer0Div.innerHTML = question.answers[0];
-	answer1Div.innerHTML = question.answers[1];
-	answer2Div.innerHTML = question.answers[2];
-	answer3Div.innerHTML = question.answers[3];
-}
-
 function GetNewQuestion ()
 {
+	function RenderQuestion ()
+	{
+		var question = questionHandler.GetCurrentQuestion ();
+		
+		var pointsDiv = document.getElementById ('points');
+		var questionDiv = document.getElementById ('question');
+		var answer0Div = document.getElementById ('answer0');
+		var answer1Div = document.getElementById ('answer1');
+		var answer2Div = document.getElementById ('answer2');
+		var answer3Div = document.getElementById ('answer3');
+
+		pointsDiv.innerHTML = 'points: ' + questionHandler.GetPoints ();
+		questionDiv.innerHTML = question.question;
+		answer0Div.innerHTML = question.answers[0];
+		answer1Div.innerHTML = question.answers[1];
+		answer2Div.innerHTML = question.answers[2];
+		answer3Div.innerHTML = question.answers[3];
+	}
+
 	questionHandler.GenerateQuestion ();
 	RenderQuestion ();
 }
 
-function BackToMainPage ()
+function BackToMainPage (text)
 {
 	pageHandler.SetToPage (0);
 	Resize ();
+	
+	var messageText = document.getElementById ('messagetext');
+	if (text === undefined) {
+		messageText.innerHTML = '';
+	} else {
+		messageText.innerHTML = text + '<br>' + 'points: <b>' + questionHandler.GetPoints () + '</b>';
+	}
 }
 
 function TimerStep ()
 {
 	timerValue = timerValue - 1;
 	if (timerValue < 0) {
-		BackToMainPage ();
+		BackToMainPage ('time is out');
 		return;
 	}
 	var countDownDiv = document.getElementById ('countdown');
@@ -52,7 +59,7 @@ function StartTimer ()
 		clearTimeout (timer);
 	}
 
-	timerValue = 16;
+	timerValue = 20 + 1;
 	TimerStep ();
 }
 
@@ -74,7 +81,7 @@ function Answer (answer)
 		GetNewQuestion ();
 		StartTimer ();
 	} else {
-		BackToMainPage ();
+		BackToMainPage ('wrong answer');
 	}
 }
 
@@ -115,7 +122,7 @@ function Resize ()
 function Load ()
 {
 	pageHandler = new PageHandler ();
-	pageHandler.SetToPage (0);
+	BackToMainPage ();
 
 	questionHandler = new QuestionHandler ();
 	questionHandler.Init ();
@@ -127,4 +134,4 @@ function Load ()
 window.onload = function ()
 {
 	Load ();
-}
+};
