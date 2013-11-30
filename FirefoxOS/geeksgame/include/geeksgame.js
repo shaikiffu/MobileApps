@@ -45,7 +45,7 @@ function TimerStep ()
 {
 	timerValue = timerValue - 1;
 	if (timerValue < 0) {
-		BackToMainPage ('time is out');
+		BackToMainPage ('time is up');
 		return;
 	}
 	var countDownDiv = document.getElementById ('countdown');
