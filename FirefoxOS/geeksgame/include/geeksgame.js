@@ -28,8 +28,16 @@ function GetNewQuestion ()
 	RenderQuestion ();
 }
 
+function StopTimer ()
+{
+	if (timer !== null) {
+		clearTimeout (timer);
+	}
+}
+
 function BackToMainPage (text)
 {
+	StopTimer ();
 	pageHandler.SetToPage (0);
 	Resize ();
 	
@@ -72,10 +80,7 @@ function TimerStep ()
 
 function StartTimer ()
 {
-	if (timer !== null) {
-		clearTimeout (timer);
-	}
-
+	StopTimer ();
 	timerValue = 20 + 1;
 	TimerStep ();
 }
