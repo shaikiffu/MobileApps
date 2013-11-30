@@ -34,10 +34,10 @@ function SelectImage ()
 			ShowMainPage ();
 			settings.loaded = false;
 			SetNewImage (URL.createObjectURL (this.result.blob));
-		}
+		};
 
 		activity.onerror = function () {
-		}
+		};
 	} catch (ex) {
 		alert ('This is not supported on your device.');
 	}
@@ -108,7 +108,7 @@ function Resize ()
 	var menu = menus[page];
 	var content = contents[page];
 	
-	if (page == 0) {
+	if (page === 0) {
 		var margin = 20;
 		var newWidth = window.innerWidth - margin;
 		var newHeight = window.innerHeight - menu.clientHeight - margin;
@@ -142,4 +142,4 @@ function Load ()
 window.onload = function ()
 {
 	Load ();
-}
+};
