@@ -42,15 +42,15 @@ function BackToMainPage (text)
 	Resize ();
 	
 	var messageText = document.getElementById ('messagetext');
-	if (text === undefined) {
-		messageText.innerHTML = '';
-	} else {
+	messageText.innerHTML = '';
+	if (text !== undefined) {
 		var points = questionHandler.GetPoints ();
-		messageText.innerHTML = text + '<br>' + 'points: <b>' + points + '</b>';
 
 		var key = 'GeeksGameHighScore';
 		var highScore = window.localStorage.getItem (key);
 		
+		messageText.innerHTML += text + '<br>';
+
 		var newHighScore = false;
 		if (highScore === null) {
 			window.localStorage.setItem (key, points);
@@ -59,7 +59,11 @@ function BackToMainPage (text)
 			window.localStorage.setItem (key, points);
 			newHighScore = true;
 		}
-		
+
+		messageText.innerHTML += '<br>your points: <b>' + points + '</b>';
+		if (highScore !== null) {
+			messageText.innerHTML += '<br>high score: ' + highScore;
+		}
 		if (newHighScore) {
 			messageText.innerHTML += '<br><br><b>New high score!</b>';
 		}
