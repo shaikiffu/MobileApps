@@ -37,7 +37,24 @@ function BackToMainPage (text)
 	if (text === undefined) {
 		messageText.innerHTML = '';
 	} else {
-		messageText.innerHTML = text + '<br>' + 'points: <b>' + questionHandler.GetPoints () + '</b>';
+		var points = questionHandler.GetPoints ();
+		messageText.innerHTML = text + '<br>' + 'points: <b>' + points + '</b>';
+
+		var key = 'GeeksGameHighScore';
+		var highScore = window.localStorage.getItem (key);
+		
+		var newHighScore = false;
+		if (highScore === null) {
+			window.localStorage.setItem (key, points);
+			newHighScore = true;
+		} else if (highScore < points) {
+			window.localStorage.setItem (key, points);
+			newHighScore = true;
+		}
+		
+		if (newHighScore) {
+			messageText.innerHTML += '<br><br><b>New high score!</b>';
+		}
 	}
 }
 
