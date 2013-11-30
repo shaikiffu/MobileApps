@@ -99,7 +99,7 @@ function Resize ()
 		var padding = 10;
 		var margin = 5;
 		
-		var answersHeight = 2 * answer.clientHeight + 3 * margin;
+		var answersHeight = 2 * answer.clientHeight + 2 * margin;
 		question.style.width = window.innerWidth + 'px';
 		question.style.height = (contentHeight - statusBar.clientHeight - answersHeight - 2 * padding) + 'px';
 
@@ -122,8 +122,6 @@ function Load ()
 	
 	window.onresize = Resize;
 	Resize ();
-	
-	Start ();
 }
 
 window.onload = function ()

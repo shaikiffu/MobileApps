@@ -1,7 +1,7 @@
 {
-  "name": "Image Slider",
-  "version": "2",
-  "description": "Image sliding puzzle which can use any images from your phone.",
+  "name": "Geeks Game",
+  "version": "1",
+  "description": "A game for geeks. Try to convert from binary to decimal.",
   "launch_path": "/index.html",
   "icons": {
     "30": "/icons/icon30.png",
