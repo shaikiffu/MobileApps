@@ -1,7 +1,7 @@
 {
   "name": "Geeks Game",
   "version": "1",
-  "description": "A game for geeks. Try to convert from binary to decimal.",
+  "description": "A game for geeks. Can you convert numbers from binary to decimal.",
   "launch_path": "/index.html",
   "icons": {
     "30": "/icons/icon30.png",
