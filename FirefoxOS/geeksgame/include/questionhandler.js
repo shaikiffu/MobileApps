@@ -25,16 +25,63 @@ QuestionHandler.prototype =
 	
 	GenerateQuestion : function ()
 	{
+		function RandomInt (from, to)
+		{
+			return Math.floor ((Math.random () * (to - from + 1)) + from); 
+		}	
+		
+		function IsValidAnswer (question, answer, correctAnswer)
+		{
+			if (answer == correctAnswer) {	
+				return false;
+			}
+		
+			var i;
+			for (i = 0; i < question.answers.length; i++) {
+				if (question.answers[i] == answer) {	
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		
+		var rangeStart = 0;
+		var rangeEnd = 10;
+		
+		var correctAnswer = RandomInt (rangeStart, rangeEnd);
+		
 		this.question = {};
-		this.question.question = 'q';
-		this.question.answer0 = 'a';
-		this.question.answer1 = 'b';
-		this.question.answer2 = 'c';
-		this.question.answer3 = 'd';
+		this.question.question = correctAnswer.toString (2);
+		this.question.correct = RandomInt (0, 3);
+		this.question.answers = [];
+		
+		var i, answer;
+		for (i = 0; i < 4; i++) {
+			if (i == this.question.correct) {
+				this.question.answers.push (correctAnswer);
+			} else {
+				answer = RandomInt (rangeStart, rangeEnd);
+				while (!IsValidAnswer (this.question, answer, correctAnswer)) {
+					answer = RandomInt (rangeStart, rangeEnd);
+				}
+				this.question.answers.push (answer);
+			}
+		}
 	},
 	
 	GetCurrentQuestion : function ()
 	{
 		return this.question;
+	},
+	
+	AnswerToCurrentQuestion : function (answer, points)
+	{
+		if (answer != this.question.correct) {
+			return false;
+		}
+		
+		this.points += points;
+		return true;
 	}
 };

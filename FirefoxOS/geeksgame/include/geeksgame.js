@@ -1,5 +1,7 @@
 var pageHandler = null;
 var questionHandler = null;
+var timer = null;
+var timerValue = null;
 
 function RenderQuestion ()
 {
@@ -14,20 +16,66 @@ function RenderQuestion ()
 
 	pointsDiv.innerHTML = 'points: ' + questionHandler.GetPoints ();
 	questionDiv.innerHTML = question.question;
-	answer0Div.innerHTML = question.answer0;
-	answer1Div.innerHTML = question.answer1;
-	answer2Div.innerHTML = question.answer2;
-	answer3Div.innerHTML = question.answer3;
+	answer0Div.innerHTML = question.answers[0];
+	answer1Div.innerHTML = question.answers[1];
+	answer2Div.innerHTML = question.answers[2];
+	answer3Div.innerHTML = question.answers[3];
+}
+
+function GetNewQuestion ()
+{
+	questionHandler.GenerateQuestion ();
+	RenderQuestion ();
+}
+
+function BackToMainPage ()
+{
+	pageHandler.SetToPage (0);
+	Resize ();
+}
+
+function TimerStep ()
+{
+	timerValue = timerValue - 1;
+	if (timerValue < 0) {
+		BackToMainPage ();
+		return;
+	}
+	var countDownDiv = document.getElementById ('countdown');
+	countDownDiv.innerHTML = timerValue;
+	timer = setTimeout (TimerStep, 1000);
+}
+
+function StartTimer ()
+{
+	if (timer !== null) {
+		clearTimeout (timer);
+	}
+
+	timerValue = 16;
+	TimerStep ();
 }
 
 function Start ()
 {
 	questionHandler.Reset ();
-	var question = questionHandler.GenerateQuestion ();
-	RenderQuestion ();
-
+	GetNewQuestion ();
+	
 	pageHandler.SetToPage (1);
 	Resize ();
+	
+	StartTimer ();
+}
+
+function Answer (answer)
+{
+	var succeeded = this.questionHandler.AnswerToCurrentQuestion (answer, timerValue);
+	if (succeeded) {
+		GetNewQuestion ();
+		StartTimer ();
+	} else {
+		BackToMainPage ();
+	}
 }
 
 function Resize ()
@@ -74,6 +122,8 @@ function Load ()
 	
 	window.onresize = Resize;
 	Resize ();
+	
+	Start ();
 }
 
 window.onload = function ()

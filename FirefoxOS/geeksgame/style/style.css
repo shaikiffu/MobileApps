@@ -111,7 +111,7 @@ div.question
 	display : table-cell;
 }
 
-div.answer
+a.answer
 {
 	color : #ffffff;
 	background : #008ab8;
@@ -120,6 +120,7 @@ div.answer
 	margin-left : 5px;
 	margin-bottom : 5px;
 	border-radius : 5px;
+	display : block;
 	float : left;
 }
 
