@@ -18,6 +18,12 @@ public class MainActivity extends Activity
 
 	private class MyWebViewClient extends WebViewClient {
 		@Override
+		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+			String summary = "<html><head><style>html, body {color:#ffffff;background:#000000;}</style></head><body>no internet connection</body></html>";
+			view.loadData(summary, "text/html", null);
+		}
+	
+		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			if (Uri.parse(url).getHost().equals(HOSTURL)) {
 				return false;
@@ -37,7 +43,6 @@ public class MainActivity extends Activity
 		return super.onKeyDown(keyCode, event);
 	}
 
-   /** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
