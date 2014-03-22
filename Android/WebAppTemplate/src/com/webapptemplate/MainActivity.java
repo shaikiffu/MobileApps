@@ -25,7 +25,7 @@ public class MainActivity extends Activity
 	
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			if (Uri.parse(url).getHost().equals(HOSTURL)) {
+			if (url.contains (HOSTURL)) {
 				return false;
 			}
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
