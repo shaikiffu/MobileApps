@@ -13,7 +13,7 @@ import android.app.AlertDialog;
 
 public class MainActivity extends Activity
 {
-	private static final String HOSTURL = "kovacsv.hu/a";
+	private static final String HOSTURL = "kovacsv.hu";
 	private WebView webView;
 
 	private class MyWebViewClient extends WebViewClient {
@@ -33,14 +33,14 @@ public class MainActivity extends Activity
 		}
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-			webView.goBack();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+	//@Override
+	//public boolean onKeyDown(int keyCode, KeyEvent event) {
+	//	if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+	//		webView.goBack();
+	//		return true;
+	//	}
+	//	return super.onKeyDown(keyCode, event);
+	//}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -52,6 +52,7 @@ public class MainActivity extends Activity
 		
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
+		webView.clearCache(true);
 		
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.loadUrl("http://" + HOSTURL);
