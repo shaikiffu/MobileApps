@@ -1,0 +1,19 @@
+{
+  "name": "Tic-Tac-Toe 3D",
+  "version": "1",
+  "description": "A 3D Tic-Tac-Toe game.",
+  "launch_path": "/index.html",
+  "icons": {
+    "30": "/icons/icon30.png",
+    "60": "/icons/icon60.png",
+	"90": "/icons/icon90.png",
+	"120": "/icons/icon120.png",
+    "128": "/icons/icon128.png"
+  },
+  "developer": {
+    "name": "Viktor Kovacs",
+    "url": "http://www.kovacsv.hu"
+  },
+  "default_locale": "en",
+  "orientation": ["portrait"]
+}

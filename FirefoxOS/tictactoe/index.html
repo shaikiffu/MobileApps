@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	 "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7;" > 
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="style/style.css">
+	<script type="text/javascript" src="include/pagehandler.js"></script>
+	<script type="text/javascript" src="include/jsmodeler.js"></script>
+	<script type="text/javascript" src="include/tictactoe.js"></script>
+	<script type="text/javascript" src="include/tictactoegame.js"></script>
+	<script type="text/javascript" src="include/tictactoemain.js"></script>
+	<title>Tic-Tac-Toe 3D</title>
+</head>
+
+<body>
+	<div class="page">
+		<div class="menu" id="mainmenu">
+			<div class="text">tic-tac-toe</div>
+			<a href="javascript:ShowMenu ();"><div class="righticonbutton"><img src="images/menu.png"></div></a>
+		</div>
+		<div class="content">
+			<canvas id="tictactoe" width="300" height="200"></canvas>
+		</div>
+	</div>
+	<div class="page">
+		<div class="menu" id="mainmenu">
+			<div class="text">settings</div>
+			<a href="javascript:ShowGame ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
+		</div>
+		<div class="content">
+			<div class="parametertitle">game</div>
+			<a href="javascript:Restart ()"><div class="parameter">restart</div></a>
+			<a href="javascript:Continue ()"><div class="parameter">continue</div></a>
+			<div class="parametertitle">difficulty</div>
+			<a href="javascript:SetDifficulty (0)"><div class="parameter">easy</div></a>
+			<a href="javascript:SetDifficulty (1)"><div class="parameter">medium</div></a>
+			<a href="javascript:SetDifficulty (2)"><div class="parameter">hard</div></a>
+		</div>
+	</div>
+</body>
+
+</html>
