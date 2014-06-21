@@ -25,7 +25,7 @@ TicTacToe.prototype.Initialize = function (size, difficulty)
 		for (j = 0; j < this.ySize; j++) {
 			this.table[k].push ([]);
 			for (i = 0; i < this.xSize; i++) {	
-				this.table[k][j].push (0)
+				this.table[k][j].push (0);
 			}
 		}
 	}
@@ -55,7 +55,7 @@ TicTacToe.prototype.DimensionsToIndex = function (dimensions)
 
 TicTacToe.prototype.GetPlayerWithIndex = function (index)
 {
-	var ijk = this.IndexToDimensions (index)
+	var ijk = this.IndexToDimensions (index);
 	return this.GetPlayerWithDimensions (ijk[0], ijk[1], ijk[2]);
 };
 
@@ -66,7 +66,7 @@ TicTacToe.prototype.GetPlayerWithDimensions = function (i, j, k)
 
 TicTacToe.prototype.StepWithIndex = function (player, index)
 {
-	var ijk = this.IndexToDimensions (index)
+	var ijk = this.IndexToDimensions (index);
 	this.StepWithDimensions (player, ijk[0], ijk[1], ijk[2]);
 };
 
@@ -84,7 +84,7 @@ TicTacToe.prototype.GetWinner = function ()
 		for (j = 0; j < this.ySize; j++) {
 			for (i = 0; i < this.xSize; i++) {
 				current = this.table[i][j][k];
-				if (current == 0) {
+				if (current === 0) {
 					drawn = false;
 					continue;
 				}
@@ -112,7 +112,7 @@ TicTacToe.prototype.CalculateComputerStep = function ()
 		for (j = 0; j < this.ySize; j++) {
 			points[k].push ([]);
 			for (i = 0; i < this.xSize; i++) {	
-				points[k][j].push (0)
+				points[k][j].push (0);
 			}
 		}
 	}		
@@ -154,7 +154,7 @@ TicTacToe.prototype.GetItemPoints = function (i, j, k)
 	var result = 0;
 	
 	var current = this.table[i][j][k];
-	if (current != 0) {
+	if (current !== 0) {
 		return result;
 	}
 	
@@ -165,7 +165,7 @@ TicTacToe.prototype.GetItemPoints = function (i, j, k)
 	count1 = counts1[0];
 	maxCount1 = counts1[1];
 	
-	if (this.difficulty == 0) {
+	if (this.difficulty === 0) {
 		// do nothing
 	} else if (this.difficulty == 1) {
 		if (maxCount1 == this.winCount - 1) {
@@ -313,4 +313,4 @@ TicTacToe.prototype.CountSameItemsInDirection = function (item, i, j, k, iStep, 
 	}
 
 	return count;
-}
+};

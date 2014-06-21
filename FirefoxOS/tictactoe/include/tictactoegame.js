@@ -44,13 +44,13 @@ TicTacToeGame.prototype.Initialize = function (canvasName)
 	}
 	
 	this.viewer.camera.SetZoomEnabled (false);
-}
+};
 
 TicTacToeGame.prototype.OnDrawStart = function (canvas)
 {
 	var context = canvas.getContext ('2d');
 	context.clearRect (0, 0, canvas.width, canvas.height);
-}
+};
 
 TicTacToeGame.prototype.OnPointDraw = function (canvas, index, projected)
 {
@@ -85,12 +85,12 @@ TicTacToeGame.prototype.OnPointDraw = function (canvas, index, projected)
 	context.fillStyle = radialGradient;
 	context.fill ();
 	context.closePath ();
-}
+};
 
 TicTacToeGame.prototype.OnDrawEnd = function (canvas)
 {
 
-}
+};
 
 TicTacToeGame.prototype.Reset = function (difficulty)
 {
@@ -120,7 +120,7 @@ TicTacToeGame.prototype.Reset = function (difficulty)
 	
 	this.hasWinner = false;
 	this.FitInWindow ();
-}
+};
 
 TicTacToeGame.prototype.UserStep = function (index)
 {
@@ -128,7 +128,7 @@ TicTacToeGame.prototype.UserStep = function (index)
 		return;
 	}		
 
-	if (this.ticTacToe.GetPlayerWithIndex (index) != 0) {
+	if (this.ticTacToe.GetPlayerWithIndex (index) !== 0) {
 		return;
 	}
 
@@ -140,38 +140,38 @@ TicTacToeGame.prototype.UserStep = function (index)
 			step = this.ticTacToe.CalculateComputerStep ();
 		}
 		this.ticTacToe.StepWithIndex (player, step);
-		winner = this.ticTacToe.GetWinner ()
+		winner = this.ticTacToe.GetWinner ();
 		if (winner != -1) {
 			this.hasWinner = true;
 			break;
 		}
 	}
 	this.viewer.Draw ();
-}
+};
 
 TicTacToeGame.prototype.FitInWindow = function ()
 {
 	var center = this.viewer.GetCenter ();
 	var radius = this.viewer.GetBoundingSphereRadius () + this.ticTacToe.shapeSize * 0.5;
 	this.viewer.FitInWindowWithCenterAndRadius (center, radius);
-}
+};
 
 TicTacToeGame.prototype.Resize = function ()
 {
 	if (this.viewer !== null) {
 		this.FitInWindow ();
 	}
-}
+};
 
 TicTacToeGame.prototype.OnMouseDown = function (event)
 {
 	this.mouseMoved = false;
-}
+};
 
 TicTacToeGame.prototype.OnMouseMove = function (event)
 {
 	this.mouseMoved = true;
-}
+};
 
 TicTacToeGame.prototype.OnMouseUp = function (event)
 {
@@ -183,17 +183,17 @@ TicTacToeGame.prototype.OnMouseUp = function (event)
 	}
 	
 	this.mouseMoved = false;
-}
+};
 
 TicTacToeGame.prototype.OnTouchStart = function (event)
 {
 	this.mouseMoved = false;
-}
+};
 
 TicTacToeGame.prototype.OnTouchMove = function (event)
 {
 	this.mouseMoved = true;
-}
+};
 
 TicTacToeGame.prototype.OnTouchEnd = function (event)
 {
@@ -205,4 +205,4 @@ TicTacToeGame.prototype.OnTouchEnd = function (event)
 	}
 	
 	this.mouseMoved = false;
-}
+};

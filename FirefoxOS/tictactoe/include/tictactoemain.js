@@ -41,11 +41,11 @@ function Resize ()
 	content.style.width = window.innerWidth + 'px';
 	content.style.height = (window.innerHeight - menu.clientHeight) + 'px';
 	
-	if (page == 0) {
+	if (page === 0) {
 		var canvas = document.getElementById ('tictactoe');
 		canvas.setAttribute ('width', window.innerWidth);
 		canvas.setAttribute ('height', window.innerHeight - menu.clientHeight);
-		if (game != null) {
+		if (game !== null) {
 			game.Resize ();
 		}
 	}
@@ -60,4 +60,4 @@ window.onload = function ()
 	game = new TicTacToeGame ();
 	game.Initialize ('tictactoe');
 	game.Reset (1);
-}
+};
