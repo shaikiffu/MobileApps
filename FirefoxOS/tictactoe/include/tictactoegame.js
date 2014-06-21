@@ -5,6 +5,9 @@ TicTacToeGame = function ()
 	this.mouseMoved = null;
 	this.hasWinner = null;
 	this.error = null;
+	this.difficulty = null;
+	this.playersNum = null;
+	this.currentPlayer = null;
 };
 
 TicTacToeGame.prototype.Initialize = function (canvasName)
@@ -29,13 +32,13 @@ TicTacToeGame.prototype.Initialize = function (canvasName)
 		canvas.addEventListener ('mousedown', function (event) {myThis.OnMouseDown (event);}, false);
 		canvas.addEventListener ('mousemove', function (event) {myThis.OnMouseMove (event);}, false);
 		canvas.addEventListener ('mouseup', function (event) {myThis.OnMouseUp (event);}, false);
-		//canvas.addEventListener ('touchstart', function (event) {myThis.OnTouchStart (event);}, false);
-		//canvas.addEventListener ('touchmove', function (event) {myThis.OnTouchMove (event);}, false);
-		//canvas.addEventListener ('touchend', function (event) {myThis.OnTouchEnd (event);}, false);
 	}
 
 	this.mouseMoved = false;
 	this.error = false;
+	this.difficulty = 1;
+	this.playersNum = 1;
+	this.currentPlayer = 1;
 
 	this.viewer = new JSM.SpriteViewer ();
 	if (!this.viewer.Start (canvasName, viewerSettings, viewerCallbacks)) {
@@ -92,21 +95,25 @@ TicTacToeGame.prototype.OnDrawEnd = function (canvas)
 
 };
 
-TicTacToeGame.prototype.Reset = function (difficulty)
+TicTacToeGame.prototype.SetDifficulty = function (difficulty)
+{
+	this.difficulty = difficulty;
+};
+
+TicTacToeGame.prototype.SetPlayersNum = function (playersNum)
+{
+	this.playersNum = playersNum;
+};
+
+TicTacToeGame.prototype.Reset = function ()
 {
 	if (this.error) {
 		return;
 	}
 	
-	if (difficulty == -1) {
-		difficulty = 1;
-		if (this.ticTacToe !== null) {
-			difficulty = this.ticTacToe.GetDifficulty ();
-		}
-	}
-	this.ticTacToe.Initialize (3, difficulty);
-	
+	this.ticTacToe.Initialize (3, this.difficulty);
 	this.viewer.RemovePoints ();
+	this.currentPlayer = 1;
 	
 	var offset = this.ticTacToe.shapeSize * 1.5;
 	var i, j, k;
@@ -126,24 +133,33 @@ TicTacToeGame.prototype.UserStep = function (index)
 {
 	if (this.hasWinner) {
 		return;
-	}		
+	}
 
 	if (this.ticTacToe.GetPlayerWithIndex (index) !== 0) {
 		return;
 	}
 
-	var player, step;
-	for (player = 1; player <= 2; player++) {
-		if (player == 1) {
-			step = index;
-		} else if (player == 2) {
-			step = this.ticTacToe.CalculateComputerStep ();
+	if (this.playersNum == 1) {
+		var player, step, winner;
+		for (player = 1; player <= 2; player++) {
+			if (player == 1) {
+				step = index;
+			} else if (player == 2) {
+				step = this.ticTacToe.CalculateComputerStep ();
+			}
+			this.ticTacToe.StepWithIndex (player, step);
+			winner = this.ticTacToe.GetWinner ();
+			if (winner != -1) {
+				this.hasWinner = true;
+				break;
+			}
 		}
-		this.ticTacToe.StepWithIndex (player, step);
-		winner = this.ticTacToe.GetWinner ();
+	} else if (this.playersNum == 2) {
+		this.ticTacToe.StepWithIndex (this.currentPlayer, index);
+		this.currentPlayer = (this.currentPlayer == 1 ? 2 : 1);
+		var winner = this.ticTacToe.GetWinner ();
 		if (winner != -1) {
 			this.hasWinner = true;
-			break;
 		}
 	}
 	this.viewer.Draw ();
@@ -177,28 +193,6 @@ TicTacToeGame.prototype.OnMouseUp = function (event)
 {
 	if (!this.mouseMoved) {
 		var index = this.viewer.NearestPointUnderMouse (50);
-		if (index != -1) {
-			this.UserStep (index);
-		}
-	}
-	
-	this.mouseMoved = false;
-};
-
-TicTacToeGame.prototype.OnTouchStart = function (event)
-{
-	this.mouseMoved = false;
-};
-
-TicTacToeGame.prototype.OnTouchMove = function (event)
-{
-	this.mouseMoved = true;
-};
-
-TicTacToeGame.prototype.OnTouchEnd = function (event)
-{
-	if (!this.mouseMoved) {
-		var index = this.viewer.NearestPointUnderTouch (50);
 		if (index != -1) {
 			this.UserStep (index);
 		}

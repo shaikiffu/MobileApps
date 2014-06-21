@@ -16,7 +16,7 @@ function ShowGame ()
 function Restart ()
 {
 	ShowGame ();
-	game.Reset (-1);
+	game.Reset ();
 }
 
 function Continue ()
@@ -27,7 +27,16 @@ function Continue ()
 function SetDifficulty (difficulty)
 {
 	ShowGame ();
-	game.Reset (difficulty);
+	game.SetPlayersNum (1);
+	game.SetDifficulty (difficulty);
+	game.Reset ();
+}
+
+function SetTwoPlayers ()
+{
+	ShowGame ();
+	game.SetPlayersNum (2);
+	game.Reset ();
 }
 
 function Resize ()
@@ -59,5 +68,5 @@ window.onload = function ()
 
 	game = new TicTacToeGame ();
 	game.Initialize ('tictactoe');
-	game.Reset (1);
+	game.Reset ();
 };
