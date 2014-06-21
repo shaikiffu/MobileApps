@@ -62,6 +62,12 @@ div.parameter
 	overflow: auto;
 }
 
+div.parameter img
+{
+	float : left;
+	margin-right : 10px;
+}
+
 div.righticonbutton
 {
 	float : right;

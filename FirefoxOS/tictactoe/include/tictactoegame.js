@@ -139,8 +139,9 @@ TicTacToeGame.prototype.UserStep = function (index)
 		return;
 	}
 
+	var winner = -1;
 	if (this.playersNum == 1) {
-		var player, step, winner;
+		var player, step;
 		for (player = 1; player <= 2; player++) {
 			if (player == 1) {
 				step = index;
@@ -157,7 +158,7 @@ TicTacToeGame.prototype.UserStep = function (index)
 	} else if (this.playersNum == 2) {
 		this.ticTacToe.StepWithIndex (this.currentPlayer, index);
 		this.currentPlayer = (this.currentPlayer == 1 ? 2 : 1);
-		var winner = this.ticTacToe.GetWinner ();
+		winner = this.ticTacToe.GetWinner ();
 		if (winner != -1) {
 			this.hasWinner = true;
 		}

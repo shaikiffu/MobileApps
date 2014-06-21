@@ -4,6 +4,7 @@ var game = new TicTacToeGame ();
 function ShowMenu ()
 {
 	pageHandler.SetToPage (1);
+	UpdateMenu ();
 	Resize ();
 }
 
@@ -11,6 +12,22 @@ function ShowGame ()
 {
 	pageHandler.SetToPage (0);
 	Resize ();
+}
+
+function UpdateMenu ()
+{
+	function CheckImage (imageId, isChecked) {
+		var checkImage = 'images/check.png';
+		var noCheckImage = 'images/nocheck.png';
+		var img = document.getElementById (imageId);
+		img.src = (isChecked ? checkImage : noCheckImage);
+	}
+
+	var twoPlayers = (game.playersNum == 2);
+	CheckImage ('easycheck', !twoPlayers && game.difficulty === 0);
+	CheckImage ('mediumcheck', !twoPlayers && game.difficulty == 1);
+	CheckImage ('hardcheck', !twoPlayers && game.difficulty == 2);
+	CheckImage ('twoplayerscheck', twoPlayers);
 }
 
 function Restart ()
