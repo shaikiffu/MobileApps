@@ -5,6 +5,7 @@ TicTacToeGame = function ()
 	this.mouseMoved = null;
 	this.hasWinner = null;
 	this.error = null;
+	this.size = null;
 	this.difficulty = null;
 	this.playersNum = null;
 	this.currentPlayer = null;
@@ -36,6 +37,7 @@ TicTacToeGame.prototype.Initialize = function (canvasName)
 
 	this.mouseMoved = false;
 	this.error = false;
+	this.size = 3;
 	this.difficulty = 1;
 	this.playersNum = 1;
 	this.currentPlayer = 1;
@@ -95,6 +97,11 @@ TicTacToeGame.prototype.OnDrawEnd = function (canvas)
 
 };
 
+TicTacToeGame.prototype.SetSize = function (size)
+{
+	this.size = size;
+};
+
 TicTacToeGame.prototype.SetDifficulty = function (difficulty)
 {
 	this.difficulty = difficulty;
@@ -111,7 +118,7 @@ TicTacToeGame.prototype.Reset = function ()
 		return;
 	}
 	
-	this.ticTacToe.Initialize (3, this.difficulty);
+	this.ticTacToe.Initialize (this.size, this.difficulty);
 	this.viewer.RemovePoints ();
 	this.currentPlayer = 1;
 	

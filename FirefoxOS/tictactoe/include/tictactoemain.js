@@ -28,6 +28,9 @@ function UpdateMenu ()
 	CheckImage ('mediumcheck', !twoPlayers && game.difficulty == 1);
 	CheckImage ('hardcheck', !twoPlayers && game.difficulty == 2);
 	CheckImage ('twoplayerscheck', twoPlayers);
+
+	CheckImage ('size3check', game.size === 3);
+	CheckImage ('size4check', game.size === 4);
 }
 
 function Restart ()
@@ -46,6 +49,13 @@ function SetDifficulty (difficulty)
 	ShowGame ();
 	game.SetPlayersNum (1);
 	game.SetDifficulty (difficulty);
+	game.Reset ();
+}
+
+function SetSize (size)
+{
+	ShowGame ();
+	game.SetSize (size);
 	game.Reset ();
 }
 
