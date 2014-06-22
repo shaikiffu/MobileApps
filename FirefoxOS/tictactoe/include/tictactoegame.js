@@ -13,6 +13,16 @@ TicTacToeGame = function ()
 
 TicTacToeGame.prototype.Initialize = function (canvasName)
 {
+	function IsTouchEnabled ()
+	{  
+		try {  
+			document.createEvent ('TouchEvent');
+			return true;  
+		} catch (exception) {  
+			return false;  
+		}  
+	}
+
 	this.ticTacToe = new TicTacToe ();
 
 	var viewerSettings = {
@@ -30,12 +40,15 @@ TicTacToeGame.prototype.Initialize = function (canvasName)
 	var canvas = document.getElementById (canvasName);
 	if (canvas.addEventListener) {
 		var myThis = this;
-		canvas.addEventListener ('mousedown', function (event) {myThis.OnMouseDown (event);}, false);
-		canvas.addEventListener ('mousemove', function (event) {myThis.OnMouseMove (event);}, false);
-		canvas.addEventListener ('mouseup', function (event) {myThis.OnMouseUp (event);}, false);
-		canvas.addEventListener ('touchstart', function (event) {myThis.OnTouchStart (event);}, false);
-		canvas.addEventListener ('touchmove', function (event) {myThis.OnTouchMove (event);}, false);
-		canvas.addEventListener ('touchend', function (event) {myThis.OnTouchEnd (event);}, false);
+		if (IsTouchEnabled ()) {
+			canvas.addEventListener ('touchstart', function (event) {myThis.OnTouchStart (event);}, false);
+			canvas.addEventListener ('touchmove', function (event) {myThis.OnTouchMove (event);}, false);
+			canvas.addEventListener ('touchend', function (event) {myThis.OnTouchEnd (event);}, false);
+		} else {
+			canvas.addEventListener ('mousedown', function (event) {myThis.OnMouseDown (event);}, false);
+			canvas.addEventListener ('mousemove', function (event) {myThis.OnMouseMove (event);}, false);
+			canvas.addEventListener ('mouseup', function (event) {myThis.OnMouseUp (event);}, false);
+		}
 	}
 
 	this.mouseMoved = false;
