@@ -33,6 +33,9 @@ TicTacToeGame.prototype.Initialize = function (canvasName)
 		canvas.addEventListener ('mousedown', function (event) {myThis.OnMouseDown (event);}, false);
 		canvas.addEventListener ('mousemove', function (event) {myThis.OnMouseMove (event);}, false);
 		canvas.addEventListener ('mouseup', function (event) {myThis.OnMouseUp (event);}, false);
+		canvas.addEventListener ('touchstart', function (event) {myThis.OnTouchStart (event);}, false);
+		canvas.addEventListener ('touchmove', function (event) {myThis.OnTouchMove (event);}, false);
+		canvas.addEventListener ('touchend', function (event) {myThis.OnTouchEnd (event);}, false);
 	}
 
 	this.mouseMoved = false;
@@ -201,6 +204,28 @@ TicTacToeGame.prototype.OnMouseUp = function (event)
 {
 	if (!this.mouseMoved) {
 		var index = this.viewer.NearestPointUnderMouse (50);
+		if (index != -1) {
+			this.UserStep (index);
+		}
+	}
+	
+	this.mouseMoved = false;
+};
+
+TicTacToeGame.prototype.OnTouchStart = function (event)
+{
+	this.mouseMoved = false;
+};
+
+TicTacToeGame.prototype.OnTouchMove = function (event)
+{
+	this.mouseMoved = true;
+};
+
+TicTacToeGame.prototype.OnTouchEnd = function (event)
+{
+	if (!this.mouseMoved) {
+		var index = this.viewer.NearestPointUnderTouch (50);
 		if (index != -1) {
 			this.UserStep (index);
 		}
