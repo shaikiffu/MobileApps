@@ -1,7 +1,6 @@
-PageHandler = function ()
+PageHandler = function (pageClassName)
 {
-	this.pages = document.getElementsByClassName ('page');
-	this.prevPage = -1;
+	this.pages = document.getElementsByClassName (pageClassName);
 	this.currPage = -1;
 };
 
@@ -23,14 +22,6 @@ PageHandler.prototype =
 				page.style.display = 'none';
 			}
 		}
-		this.prevPage = this.currPage;
 		this.currPage = index;
-	},
-	
-	SetToPrevPage : function ()
-	{
-		if (this.prevPage != -1) {
-			this.SetToPage (this.prevPage);
-		}
 	}
 };

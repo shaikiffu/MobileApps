@@ -1,4 +1,4 @@
-var pageHandler = new PageHandler ();
+var pageHandler = new PageHandler ('page');
 var game = new TicTacToeGame ();
 
 function ShowMenu ()
