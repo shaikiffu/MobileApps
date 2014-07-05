@@ -9,9 +9,10 @@ TicTacToeGame = function ()
 	this.difficulty = null;
 	this.playersNum = null;
 	this.currentPlayer = null;
+	this.gameEndCallback = null;
 };
 
-TicTacToeGame.prototype.Initialize = function (canvasName)
+TicTacToeGame.prototype.Initialize = function (canvasName, gameEndCallback)
 {
 	function IsTouchEnabled ()
 	{  
@@ -65,6 +66,7 @@ TicTacToeGame.prototype.Initialize = function (canvasName)
 	}
 	
 	this.viewer.camera.SetZoomEnabled (false);
+	this.gameEndCallback = gameEndCallback;
 };
 
 TicTacToeGame.prototype.OnDrawStart = function (canvas)
@@ -175,6 +177,7 @@ TicTacToeGame.prototype.UserStep = function (index)
 			winner = this.ticTacToe.GetWinner ();
 			if (winner != -1) {
 				this.hasWinner = true;
+				this.gameEndCallback (winner);
 				break;
 			}
 		}
@@ -184,6 +187,7 @@ TicTacToeGame.prototype.UserStep = function (index)
 		winner = this.ticTacToe.GetWinner ();
 		if (winner != -1) {
 			this.hasWinner = true;
+			this.gameEndCallback (winner);
 		}
 	}
 	this.viewer.Draw ();

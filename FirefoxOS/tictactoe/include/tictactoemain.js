@@ -1,16 +1,16 @@
 var pageHandler = new PageHandler ('page');
 var game = new TicTacToeGame ();
 
+function ShowGame ()
+{
+	pageHandler.SetToPage (0);
+	Resize ();
+}
+
 function ShowMenu ()
 {
 	pageHandler.SetToPage (1);
 	UpdateMenu ();
-	Resize ();
-}
-
-function ShowGame ()
-{
-	pageHandler.SetToPage (0);
 	Resize ();
 }
 
@@ -87,6 +87,11 @@ function Resize ()
 	}
 }
 
+function GameEnd (winner)
+{
+	alert ('winner: ' + winner);
+}
+
 window.onload = function ()
 {
 	pageHandler.SetToPage (0);
@@ -94,6 +99,6 @@ window.onload = function ()
 	Resize ();
 
 	game = new TicTacToeGame ();
-	game.Initialize ('tictactoe');
+	game.Initialize ('tictactoe', GameEnd);
 	game.Reset ();
 };
