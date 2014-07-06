@@ -14,6 +14,21 @@ function ShowMenu ()
 	Resize ();
 }
 
+function ShowEnd (winner)
+{
+	pageHandler.SetToPage (2);
+	var gameEndTextDiv = document.getElementById ('gameendtext');
+	gameEndTextDiv.style.background = (winner == 1 ? '#00769f' : '#b32c2c');
+	var twoPlayers = (game.playersNum == 2);
+	if (twoPlayers) {
+		gameEndTextDiv.innerHTML = 'player ' + winner + ' win';
+	} else {
+		gameEndTextDiv.innerHTML = (winner == 1 ? 'you win' : 'computer win');
+	}
+	
+	Resize ();
+}
+
 function UpdateMenu ()
 {
 	function CheckImage (imageId, isChecked) {
@@ -89,7 +104,7 @@ function Resize ()
 
 function GameEnd (winner)
 {
-	alert ('winner: ' + winner);
+	ShowEnd (winner);
 }
 
 window.onload = function ()

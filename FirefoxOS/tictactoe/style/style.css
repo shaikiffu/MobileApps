@@ -83,6 +83,25 @@ div.content
 	height : 300px;
 }
 
+#gameend
+{
+	width : 100%;
+	height : 100%;
+	display : table;
+}
+
+#gameendtext
+{
+	color : #ffffff;
+	background : #000000;
+	font-size : 35px;
+	text-align : center;
+	vertical-align : middle;
+	width : 100px;
+	height : 200px;
+	display : table-cell;
+}
+
 canvas
 {
 	display : block;

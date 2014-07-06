@@ -18,7 +18,7 @@
 
 <body>
 	<div class="page">
-		<div class="menu" id="mainmenu">
+		<div class="menu">
 			<div class="text">tic-tac-toe</div>
 			<a href="javascript:ShowMenu ();"><div class="righticonbutton"><img src="images/settings.png"></div></a>
 			<a href="javascript:Restart ();"><div class="righticonbutton"><img src="images/restart.png"></div></a>
@@ -28,7 +28,7 @@
 		</div>
 	</div>
 	<div class="page">
-		<div class="menu" id="mainmenu">
+		<div class="menu">
 			<div class="text">settings</div>
 			<a href="javascript:ShowGame ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
 		</div>
@@ -44,6 +44,19 @@
 			<div class="parametertitle">size</div>
 			<a href="javascript:SetSize (3)"><div class="parameter"><img src="images/nocheck.png" id="size3check">3 x 3</div></a>
 			<a href="javascript:SetSize (4)"><div class="parameter"><img src="images/nocheck.png" id="size4check">4 x 4</div></a>
+		</div>
+	</div>
+	<div class="page">
+		<div class="menu">
+			<div class="text">game ended</div>
+			<a href="javascript:ShowGame ();"><div class="righticonbutton"><img src="images/back.png"></div></a>
+			<a href="javascript:ShowMenu ();"><div class="righticonbutton"><img src="images/settings.png"></div></a>
+			<a href="javascript:Restart ();"><div class="righticonbutton"><img src="images/restart.png"></div></a>
+		</div>
+		<div class="content">
+			<div id="gameend">
+				<div id="gameendtext"></div>
+			</div>
 		</div>
 	</div>
 </body>
