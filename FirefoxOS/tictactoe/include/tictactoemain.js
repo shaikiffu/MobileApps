@@ -18,12 +18,17 @@ function ShowEnd (winner)
 {
 	pageHandler.SetToPage (2);
 	var gameEndTextDiv = document.getElementById ('gameendtext');
-	gameEndTextDiv.style.background = (winner == 1 ? '#00769f' : '#b32c2c');
-	var twoPlayers = (game.playersNum == 2);
-	if (twoPlayers) {
-		gameEndTextDiv.innerHTML = 'player ' + winner + ' win';
+	if (winner === 0) {
+		gameEndTextDiv.style.background = '#279b61';
+		gameEndTextDiv.innerHTML = 'drawn';
 	} else {
-		gameEndTextDiv.innerHTML = (winner == 1 ? 'you win' : 'computer win');
+		gameEndTextDiv.style.background = (winner == 1 ? '#00769f' : '#b32c2c');
+		var twoPlayers = (game.playersNum == 2);
+		if (twoPlayers) {
+			gameEndTextDiv.innerHTML = 'player ' + winner + ' win';
+		} else {
+			gameEndTextDiv.innerHTML = (winner == 1 ? 'you win' : 'computer win');
+		}
 	}
 	
 	Resize ();
